@@ -335,8 +335,20 @@ async def convert_currency(conversion: ConversionRequest, request: Request):
                     }},
                     upsert=True
                 )
+            except httpx.HTTPStatusError as e:
+                # If API fails, try to use cached data even if expired
+                if cached and cached.get("rate"):
+                    rate = cached["rate"]
+                    logger.warning(f"Using expired cache due to API error: {e}")
+                else:
+                    raise HTTPException(status_code=503, detail="Exchange rate service temporarily unavailable")
             except Exception as e:
-                raise HTTPException(status_code=500, detail=f"Failed to fetch exchange rate: {str(e)}")
+                # Fallback to cache if available
+                if cached and cached.get("rate"):
+                    rate = cached["rate"]
+                    logger.warning(f"Using cached rate due to error: {e}")
+                else:
+                    raise HTTPException(status_code=500, detail=f"Failed to fetch exchange rate: {str(e)}")
     
     converted_amount = conversion.amount * rate
     
