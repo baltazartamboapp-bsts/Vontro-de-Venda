@@ -181,7 +181,20 @@ const Scanner = ({ user }) => {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div id="qr-reader" className="w-full" data-testid="qr-reader"></div>
+                  <div className="relative w-full aspect-video bg-black rounded-lg overflow-hidden" data-testid="qr-reader">
+                    <Webcam
+                      ref={webcamRef}
+                      audio={false}
+                      screenshotFormat="image/jpeg"
+                      videoConstraints={{
+                        facingMode: 'environment'
+                      }}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-64 h-64 border-4 border-emerald-500 rounded-lg"></div>
+                    </div>
+                  </div>
                   <Button
                     onClick={stopScanner}
                     variant="outline"
