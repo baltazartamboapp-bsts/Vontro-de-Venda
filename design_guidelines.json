@@ -1,0 +1,165 @@
+{
+  "identity": {
+    "name": "Controle de Venda",
+    "persona": "E1 - The Anti-AI Designer",
+    "tone": "Efficient, Trustworthy, Modern, Swiss-Utility",
+    "aesthetic": "High-Contrast Swiss Style. Data-first. Minimalist but dense.",
+    "theme_strategy": "Light Mode Default (Best for retail/warehouse visibility). Dark Mode toggle available."
+  },
+  "typography": {
+    "primary_font": "Manrope",
+    "secondary_font": "Inter",
+    "mono_font": "JetBrains Mono",
+    "usage": {
+      "headings": "Manrope, font-bold, tracking-tight. Sizes: text-3xl to text-5xl.",
+      "body": "Inter, font-normal, leading-relaxed. Sizes: text-sm to text-base.",
+      "data_numbers": "JetBrains Mono, font-medium. Use for prices, stock counts, IDs.",
+      "captions": "Inter, font-medium, uppercase, tracking-widest, text-xs."
+    }
+  },
+  "colors": {
+    "palette": {
+      "primary": {
+        "name": "Midnight Navy",
+        "hex": "#0F172A",
+        "tailwind": "bg-slate-900",
+        "usage": "Primary buttons, Sidebar, Headings"
+      },
+      "secondary": {
+        "name": "Slate Grey",
+        "hex": "#64748B",
+        "tailwind": "text-slate-500",
+        "usage": "Secondary text, Borders, Icons"
+      },
+      "accent": {
+        "name": "Profit Emerald",
+        "hex": "#10B981",
+        "tailwind": "text-emerald-500",
+        "usage": "Positive trends, Success states, 'Add Sale' buttons"
+      },
+      "warning": {
+        "name": "Stock Amber",
+        "hex": "#F59E0B",
+        "tailwind": "text-amber-500",
+        "usage": "Low stock alerts, Pending states"
+      },
+      "danger": {
+        "name": "Loss Red",
+        "hex": "#EF4444",
+        "tailwind": "text-red-500",
+        "usage": "Negative trends, Delete actions, Out of stock"
+      },
+      "background": {
+        "name": "Paper White",
+        "hex": "#F8FAFC",
+        "tailwind": "bg-slate-50",
+        "usage": "App background (not pure white)"
+      },
+      "surface": {
+        "name": "Pure White",
+        "hex": "#FFFFFF",
+        "tailwind": "bg-white",
+        "usage": "Cards, Tables, Modals"
+      }
+    },
+    "rules": [
+      "Never use pure black (#000000). Use Slate-900 (#0F172A).",
+      "Backgrounds should be off-white (Slate-50) to reduce eye strain.",
+      "Borders should be subtle (Slate-200).",
+      "Text on colored backgrounds must be white or Slate-900 depending on contrast."
+    ]
+  },
+  "layout": {
+    "grid_system": {
+      "dashboard": "grid grid-cols-1 md:grid-cols-12 gap-6",
+      "widgets": {
+        "summary_card": "col-span-1 md:col-span-3",
+        "main_chart": "col-span-1 md:col-span-8 row-span-2",
+        "recent_list": "col-span-1 md:col-span-4 row-span-2"
+      }
+    },
+    "spacing": {
+      "container_padding": "p-4 md:p-8",
+      "section_gap": "gap-8",
+      "item_gap": "gap-4"
+    },
+    "mobile_strategy": {
+      "navigation": "Bottom fixed navigation bar for primary actions (Scan, Home, Sales).",
+      "tables": "Convert to Card Lists on mobile. Do not scroll horizontally if possible.",
+      "touch_targets": "Minimum 44px height for all interactive elements."
+    }
+  },
+  "components": {
+    "cards": {
+      "style": "bg-white border border-slate-200 rounded-lg shadow-sm hover:shadow-md transition-shadow",
+      "header": "border-b border-slate-100 p-4",
+      "content": "p-4"
+    },
+    "buttons": {
+      "primary": "bg-slate-900 text-white hover:bg-slate-800 rounded-md px-4 py-2 font-medium shadow-sm",
+      "secondary": "bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 rounded-md px-4 py-2 font-medium",
+      "accent": "bg-emerald-600 text-white hover:bg-emerald-700 rounded-md px-4 py-2 font-medium shadow-sm",
+      "icon": "p-2 rounded-full hover:bg-slate-100 text-slate-600"
+    },
+    "inputs": {
+      "style": "bg-white border border-slate-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-slate-900 focus:border-transparent outline-none transition-all"
+    },
+    "tables": {
+      "style": "w-full text-sm text-left",
+      "header": "bg-slate-50 text-slate-500 uppercase tracking-wider font-medium py-3 px-4",
+      "row": "border-b border-slate-100 hover:bg-slate-50 transition-colors",
+      "cell": "py-3 px-4"
+    },
+    "badges": {
+      "success": "bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full text-xs font-medium",
+      "warning": "bg-amber-100 text-amber-700 px-2 py-1 rounded-full text-xs font-medium",
+      "error": "bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-medium",
+      "neutral": "bg-slate-100 text-slate-700 px-2 py-1 rounded-full text-xs font-medium"
+    }
+  },
+  "visual_enhancers": {
+    "shadows": "Use 'shadow-sm' for cards, 'shadow-lg' for modals/dropdowns. Avoid heavy shadows.",
+    "borders": "1px solid Slate-200 is the primary separator. Use borders over shadows for structure.",
+    "radius": "rounded-lg (0.5rem) for containers, rounded-md (0.375rem) for inner elements.",
+    "icons": "Lucide React. Stroke width 1.5px for elegance. Size 16px-20px."
+  },
+  "images": {
+    "login_hero": {
+      "url": "https://images.pexels.com/photos/4484072/pexels-photo-4484072.jpeg",
+      "alt": "Warehouse worker with tablet",
+      "usage": "Split screen login page (Left side image, Right side form)"
+    },
+    "dashboard_welcome": {
+      "url": "https://images.pexels.com/photos/7552373/pexels-photo-7552373.jpeg",
+      "alt": "Happy retail owner",
+      "usage": "Welcome banner or empty state placeholder"
+    },
+    "empty_state": {
+      "url": "https://images.unsplash.com/photo-1583737077382-3f51318d6074?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzB8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjB3YXJlaG91c2UlMjBsb2dpc3RpY3MlMjB3b3JrZXIlMjB0YWJsZXR8ZW58MHx8fHwxNzY2NDk1OTI3fDA&ixlib=rb-4.1.0&q=85",
+      "alt": "Minimalist warehouse",
+      "usage": "Background for 404 or empty lists (with overlay)"
+    }
+  },
+  "motion": {
+    "page_transition": "initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}",
+    "hover_effect": "whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}",
+    "list_stagger": "variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.05 } } }}"
+  },
+  "accessibility": {
+    "contrast": "Ensure text is Slate-900 on light backgrounds. Use Slate-500 only for secondary text.",
+    "focus": "Visible focus rings (ring-2 ring-slate-900) on all interactive elements.",
+    "labels": "All inputs must have visible labels or aria-labels."
+  },
+  "instructions_to_main_agent": [
+    "Use the 'Manrope' font for all headings. Import it from Google Fonts.",
+    "Use 'JetBrains Mono' for all financial data, stock numbers, and IDs.",
+    "Implement the 'Control Room' grid layout for the dashboard.",
+    "Use the specified color palette strictly. Do not use default Tailwind blue.",
+    "Ensure the mobile view has a bottom navigation bar.",
+    "Use the provided image URLs for the login and welcome sections.",
+    "Add 'data-testid' to all interactive elements.",
+    "Use 'sonner' for all toast notifications.",
+    "Use 'recharts' for all charts (Sales trends, Stock levels).",
+    "Keep the design 'Swiss Style' - clean, high contrast, grid-based."
+  ]
+}
