@@ -144,9 +144,12 @@ const Products = ({ user }) => {
                 {t('add_product')}
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-md" data-testid="product-dialog">
+            <DialogContent className="max-w-md" data-testid="product-dialog" aria-describedby="product-dialog-description">
               <DialogHeader>
                 <DialogTitle>{editingProduct ? t('edit_product') : t('add_product')}</DialogTitle>
+                <p id="product-dialog-description" className="sr-only">
+                  {editingProduct ? 'Edit product details' : 'Add a new product to inventory'}
+                </p>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
