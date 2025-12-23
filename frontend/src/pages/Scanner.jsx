@@ -10,7 +10,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Camera, CameraOff, Package, Plus, ArrowRight } from 'lucide-react';
-import { Html5Qrcode } from 'html5-qrcode';
+import Webcam from 'react-webcam';
+import jsQR from 'jsqr';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -30,52 +31,54 @@ const Scanner = ({ user }) => {
     currency: 'MZN'
   });
   const [quantity, setQuantity] = useState('1');
-  const [movementType, setMovementType] = useState('entrada');
-  const scannerRef = useRef(null);
-  const html5QrCodeRef = useRef(null);
+  const webcamRef = useRef(null);
+  const scanIntervalRef = useRef(null);
 
   useEffect(() => {
     return () => {
-      stopScanner();
+      if (scanIntervalRef.current) {
+        clearInterval(scanIntervalRef.current);
+      }
     };
   }, []);
 
-  const startScanner = async () => {
-    try {
-      const html5QrCode = new Html5Qrcode('qr-reader');
-      html5QrCodeRef.current = html5QrCode;
+  const startScanner = () => {
+    setIsScanning(true);
+    scanIntervalRef.current = setInterval(() => {
+      captureAndScan();
+    }, 500);
+  };
 
-      await html5QrCode.start(
-        { facingMode: 'environment' },
-        {
-          fps: 10,
-          qrbox: { width: 250, height: 250 }
-        },
-        (decodedText) => {
-          handleScan(decodedText);
-        },
-        (errorMessage) => {
-          // Ignore scan errors
-        }
-      );
-
-      setIsScanning(true);
-    } catch (err) {
-      console.error('Failed to start scanner:', err);
-      toast.error('Falha ao iniciar câmera');
+  const stopScanner = () => {
+    setIsScanning(false);
+    if (scanIntervalRef.current) {
+      clearInterval(scanIntervalRef.current);
+      scanIntervalRef.current = null;
     }
   };
 
-  const stopScanner = async () => {
-    if (html5QrCodeRef.current && html5QrCodeRef.current.isScanning) {
-      try {
-        await html5QrCodeRef.current.stop();
-        html5QrCodeRef.current.clear();
-      } catch (err) {
-        console.error('Failed to stop scanner:', err);
+  const captureAndScan = () => {
+    if (webcamRef.current) {
+      const imageSrc = webcamRef.current.getScreenshot();
+      if (imageSrc) {
+        const image = new Image();
+        image.src = imageSrc;
+        image.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = image.width;
+          canvas.height = image.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(image, 0, 0);
+          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const code = jsQR(imageData.data, imageData.width, imageData.height);
+          
+          if (code) {
+            stopScanner();
+            handleScan(code.data);
+          }
+        };
       }
     }
-    setIsScanning(false);
   };
 
   const handleScan = async (barcode) => {
