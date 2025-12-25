@@ -214,6 +214,7 @@ async def create_product(product: ProductCreate, request: Request):
         "purchase_price": product.purchase_price,
         "sale_price": product.sale_price,
         "currency": product.currency,
+        "image": product.image,
         "created_at": datetime.now(timezone.utc),
         "user_id": user.user_id
     }
