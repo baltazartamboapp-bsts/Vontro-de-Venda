@@ -317,6 +317,15 @@ const Products = ({ user }) => {
             {filteredProducts.map((product) => (
               <Card key={product.product_id} className="card-hover" data-testid={`product-card-${product.product_id}`}>
                 <CardContent className="pt-6">
+                  {product.image && (
+                    <div className="mb-4">
+                      <img 
+                        src={product.image} 
+                        alt={product.name}
+                        className="w-full h-32 object-cover rounded border"
+                      />
+                    </div>
+                  )}
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <h3 className="font-bold text-slate-900 mb-1">{product.name}</h3>
