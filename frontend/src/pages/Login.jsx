@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Package, BarChart3, Scan, TrendingUp } from 'lucide-react';
+import { Package, BarChart3, Scan, TrendingUp, Phone } from 'lucide-react';
 
 const Login = () => {
   const { t } = useTranslation();
