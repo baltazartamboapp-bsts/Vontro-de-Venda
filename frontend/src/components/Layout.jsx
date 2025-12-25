@@ -146,7 +146,20 @@ const Layout = ({ children, user }) => {
           <div className="flex items-center gap-2">
             <Select value={i18n.language} onValueChange={changeLanguage}>
               <SelectTrigger className="w-16 h-8 text-xs border-slate-300">
-                <SelectValue />
+                <SelectValue>
+                  <span>
+                    {i18n.language === 'pt-MZ' && '🇲🇿'}
+                    {i18n.language === 'pt-BR' && '🇧🇷'}
+                    {i18n.language === 'pt-PT' && '🇵🇹'}
+                    {i18n.language === 'es' && '🇪🇸'}
+                    {i18n.language === 'fr' && '🇫🇷'}
+                    {i18n.language === 'zu' && 'Zu'}
+                    {i18n.language === 'sn' && 'Sn'}
+                    {i18n.language === 'sw' && 'Sw'}
+                    {i18n.language === 'en-ZA' && '🇿🇦'}
+                    {i18n.language === 'en-US' && '🇺🇸'}
+                  </span>
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="pt-MZ">🇲🇿</SelectItem>
