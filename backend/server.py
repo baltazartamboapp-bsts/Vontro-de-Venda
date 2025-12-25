@@ -243,13 +243,18 @@ async def update_product(product_id: str, product: ProductCreate, request: Reque
     if not existing:
         raise HTTPException(status_code=404, detail="Product not found")
     
+    # Calcular stock total a partir das cores
+    total_stock = sum(color.quantity for color in product.colors) if product.colors else 0
+    
     update_data = {
         "name": product.name,
         "barcode": product.barcode,
         "purchase_price": product.purchase_price,
         "sale_price": product.sale_price,
         "currency": product.currency,
-        "image": product.image
+        "image": product.image,
+        "colors": [{"color": c.color, "quantity": c.quantity} for c in product.colors],
+        "current_stock": total_stock
     }
     
     await db.products.update_one({"product_id": product_id}, {"$set": update_data})
