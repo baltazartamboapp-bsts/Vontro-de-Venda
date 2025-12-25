@@ -335,6 +335,15 @@ const History = ({ user }) => {
                           </span>
                         </div>
                         <p className="font-bold text-slate-900 mt-1">{getProductName(movement.product_id)}</p>
+                        {movement.color && (
+                          <div className="flex items-center gap-1 mt-1">
+                            <div 
+                              className="w-3 h-3 rounded-full border border-slate-300" 
+                              style={{ backgroundColor: movement.color.toLowerCase() }}
+                            />
+                            <span className="text-xs text-slate-600 font-medium">{movement.color}</span>
+                          </div>
+                        )}
                         {movement.note && (
                           <p className="text-xs text-slate-500 mt-1 italic">"{movement.note}"</p>
                         )}
