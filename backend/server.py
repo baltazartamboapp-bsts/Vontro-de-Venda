@@ -42,6 +42,7 @@ class Product(BaseModel):
     purchase_price: float
     sale_price: float
     currency: str = "MZN"
+    image: Optional[str] = None  # Base64 encoded image
     created_at: datetime
     user_id: str
 
@@ -51,6 +52,7 @@ class ProductCreate(BaseModel):
     purchase_price: float = Field(..., gt=0)
     sale_price: float = Field(..., gt=0)
     currency: str = "MZN"
+    image: Optional[str] = None
 
 class StockMovement(BaseModel):
     model_config = ConfigDict(extra="ignore")
