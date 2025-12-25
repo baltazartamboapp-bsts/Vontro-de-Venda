@@ -114,9 +114,34 @@ const Products = ({ user }) => {
       barcode: '',
       purchase_price: '',
       sale_price: '',
-      currency: 'MZN'
+      currency: 'MZN',
+      image: null
     });
     setEditingProduct(null);
+    setImagePreview(null);
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error('Imagem muito grande! Máximo 5MB');
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        setFormData({ ...formData, image: base64String });
+        setImagePreview(base64String);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setFormData({ ...formData, image: null });
+    setImagePreview(null);
   };
 
   const calculateProfit = (salePrice, purchasePrice) => {
