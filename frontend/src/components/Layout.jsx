@@ -1,8 +1,9 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Home, Package, ScanBarcode, History, BarChart3, Headphones, Settings, LogOut, DollarSign, Phone } from 'lucide-react';
+import { Home, Package, ScanBarcode, History, BarChart3, Headphones, Settings, LogOut, DollarSign, Phone, Globe } from 'lucide-react';
 import { Button } from './ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import axios from 'axios';
 import { toast } from 'sonner';
 
