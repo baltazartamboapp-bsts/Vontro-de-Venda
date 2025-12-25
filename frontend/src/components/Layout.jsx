@@ -132,13 +132,19 @@ const Layout = ({ children, user }) => {
           <div className="flex items-center gap-2">
             <Select value={i18n.language} onValueChange={changeLanguage}>
               <SelectTrigger className="w-16 h-8 text-xs border-slate-300">
-                <SelectValue>
-                  <span>{i18n.language === 'pt' ? '🇲🇿' : '🇬🇧'}</span>
-                </SelectValue>
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="pt">🇲🇿 PT</SelectItem>
-                <SelectItem value="en">🇬🇧 EN</SelectItem>
+                <SelectItem value="pt-MZ">🇲🇿</SelectItem>
+                <SelectItem value="pt-BR">🇧🇷</SelectItem>
+                <SelectItem value="pt-PT">🇵🇹</SelectItem>
+                <SelectItem value="es">🇪🇸</SelectItem>
+                <SelectItem value="fr">🇫🇷</SelectItem>
+                <SelectItem value="zu">Zu</SelectItem>
+                <SelectItem value="sn">Sn</SelectItem>
+                <SelectItem value="sw">Sw</SelectItem>
+                <SelectItem value="en-ZA">🇿🇦</SelectItem>
+                <SelectItem value="en-US">🇺🇸</SelectItem>
               </SelectContent>
             </Select>
             <a href="tel:+258845234933" className="text-slate-600 hover:text-emerald-600 transition-colors">
