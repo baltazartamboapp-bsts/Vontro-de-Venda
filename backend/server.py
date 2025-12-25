@@ -359,9 +359,20 @@ async def convert_currency(conversion: ConversionRequest, request: Request):
     cache_key = f"{conversion.from_currency}_{conversion.to_currency}"
     cached = await db.rates_cache.find_one({"cache_key": cache_key}, {"_id": 0})
     
-    if cached and cached.get("expires_at") and cached["expires_at"] > datetime.now(timezone.utc):
-        rate = cached["rate"]
-    else:
+    # Fix timezone comparison
+    if cached and cached.get("expires_at"):
+        expires_at = cached["expires_at"]
+        if isinstance(expires_at, str):
+            expires_at = datetime.fromisoformat(expires_at.replace('Z', '+00:00'))
+        elif expires_at.tzinfo is None:
+            expires_at = expires_at.replace(tzinfo=timezone.utc)
+        
+        if expires_at > datetime.now(timezone.utc):
+            rate = cached["rate"]
+        else:
+            cached = None  # Force refresh
+    
+    if not cached or not cached.get("rate"):
         async with httpx.AsyncClient() as http_client:
             try:
                 res = await http_client.get(
