@@ -317,13 +317,17 @@ const Products = ({ user }) => {
             {filteredProducts.map((product) => (
               <Card key={product.product_id} className="card-hover" data-testid={`product-card-${product.product_id}`}>
                 <CardContent className="pt-6">
-                  {product.image && (
-                    <div className="mb-4">
+                  {product.image ? (
+                    <div className="mb-4 overflow-hidden rounded-lg">
                       <img 
                         src={product.image} 
                         alt={product.name}
-                        className="w-full h-32 object-cover rounded border"
+                        className="w-full h-40 object-cover hover:scale-105 transition-transform duration-200"
                       />
+                    </div>
+                  ) : (
+                    <div className="mb-4 bg-gradient-to-br from-slate-100 to-slate-200 rounded-lg h-40 flex items-center justify-center">
+                      <Package className="w-16 h-16 text-slate-400" />
                     </div>
                   )}
                   <div className="flex items-start justify-between mb-4">
