@@ -24,6 +24,7 @@ const Layout = ({ children, user }) => {
     { path: '/products', icon: Package, label: t('products'), testId: 'nav-products' },
     { path: '/scanner', icon: ScanBarcode, label: t('scanner'), testId: 'nav-scanner' },
     { path: '/currency', icon: DollarSign, label: 'Conversão de Moeda', testId: 'nav-currency' },
+    { path: '/calculator', icon: Calculator, label: 'Calculadora', testId: 'nav-calculator' },
     { path: '/history', icon: History, label: t('history'), testId: 'nav-history' },
     { path: '/reports', icon: BarChart3, label: t('reports'), testId: 'nav-reports' },
     { path: '/support', icon: Headphones, label: t('support'), testId: 'nav-support' },
