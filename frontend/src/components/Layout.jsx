@@ -55,13 +55,19 @@ const Layout = ({ children, user }) => {
           </a>
           <Select value={i18n.language} onValueChange={changeLanguage}>
             <SelectTrigger className="w-20 h-8 text-xs border-slate-300">
-              <SelectValue>
-                <span>{i18n.language === 'pt' ? '🇲🇿 PT' : '🇬🇧 EN'}</span>
-              </SelectValue>
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="pt">🇲🇿 Português</SelectItem>
-              <SelectItem value="en">🇬🇧 English</SelectItem>
+              <SelectItem value="pt-MZ">🇲🇿 PT-MZ</SelectItem>
+              <SelectItem value="pt-BR">🇧🇷 PT-BR</SelectItem>
+              <SelectItem value="pt-PT">🇵🇹 PT-PT</SelectItem>
+              <SelectItem value="es">🇪🇸 ES</SelectItem>
+              <SelectItem value="fr">🇫🇷 FR</SelectItem>
+              <SelectItem value="zu">🇿🇦 Zulu</SelectItem>
+              <SelectItem value="sn">🇿🇼 Shona</SelectItem>
+              <SelectItem value="sw">🇹🇿 Swahili</SelectItem>
+              <SelectItem value="en-ZA">🇿🇦 EN-ZA</SelectItem>
+              <SelectItem value="en-US">🇺🇸 EN-US</SelectItem>
             </SelectContent>
           </Select>
         </div>
