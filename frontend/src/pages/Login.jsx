@@ -29,16 +29,19 @@ const Login = () => {
         <div className="flex items-center gap-3">
           <Select value={i18n.language} onValueChange={changeLanguage}>
             <SelectTrigger className="w-32 h-9 border-slate-300">
-              <SelectValue>
-                <span className="flex items-center gap-1">
-                  <Globe className="w-4 h-4" />
-                  {i18n.language === 'pt' ? '🇲🇿 PT' : '🇬🇧 EN'}
-                </span>
-              </SelectValue>
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="pt">🇲🇿 Português</SelectItem>
-              <SelectItem value="en">🇬🇧 English</SelectItem>
+              <SelectItem value="pt-MZ">🇲🇿 Português (MZ)</SelectItem>
+              <SelectItem value="pt-BR">🇧🇷 Português (BR)</SelectItem>
+              <SelectItem value="pt-PT">🇵🇹 Português (PT)</SelectItem>
+              <SelectItem value="es">🇪🇸 Español</SelectItem>
+              <SelectItem value="fr">🇫🇷 Français</SelectItem>
+              <SelectItem value="zu">🇿🇦 Zulu</SelectItem>
+              <SelectItem value="sn">🇿🇼 Shona</SelectItem>
+              <SelectItem value="sw">🇹🇿 Kiswahili</SelectItem>
+              <SelectItem value="en-ZA">🇿🇦 English (ZA)</SelectItem>
+              <SelectItem value="en-US">🇺🇸 English (US)</SelectItem>
             </SelectContent>
           </Select>
           <a 
