@@ -26,8 +26,10 @@ const History = ({ user }) => {
     product_id: '',
     type: 'entrada',
     quantity: '1',
+    color: '',
     note: ''
   });
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     fetchData();
