@@ -53,6 +53,17 @@ const Layout = ({ children, user }) => {
             <Phone className="w-4 h-4" />
             <span className="font-medium">845234933</span>
           </a>
+          <Select value={i18n.language} onValueChange={changeLanguage}>
+            <SelectTrigger className="w-20 h-8 text-xs border-slate-300">
+              <SelectValue>
+                <span>{i18n.language === 'pt' ? '🇲🇿 PT' : '🇬🇧 EN'}</span>
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="pt">🇲🇿 Português</SelectItem>
+              <SelectItem value="en">🇬🇧 English</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         
         <div className="flex flex-col flex-grow pt-5 pb-4 overflow-y-auto">
