@@ -118,7 +118,11 @@ const History = ({ user }) => {
                   <Label htmlFor="product">Produto *</Label>
                   <Select 
                     value={formData.product_id} 
-                    onValueChange={(value) => setFormData({ ...formData, product_id: value })}
+                    onValueChange={(value) => {
+                      const product = products.find(p => p.product_id === value);
+                      setFormData({ ...formData, product_id: value, color: '' });
+                      setSelectedProduct(product);
+                    }}
                     required
                   >
                     <SelectTrigger data-testid="movement-product-select">
@@ -133,6 +137,34 @@ const History = ({ user }) => {
                     </SelectContent>
                   </Select>
                 </div>
+
+                {/* Seleção de cor se o produto tiver cores */}
+                {selectedProduct && selectedProduct.colors && selectedProduct.colors.length > 0 && (
+                  <div>
+                    <Label htmlFor="color">Cor *</Label>
+                    <Select 
+                      value={formData.color} 
+                      onValueChange={(value) => setFormData({ ...formData, color: value })}
+                    >
+                      <SelectTrigger data-testid="movement-color-select">
+                        <SelectValue placeholder="Selecione uma cor" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {selectedProduct.colors.map(colorItem => (
+                          <SelectItem key={colorItem.color} value={colorItem.color}>
+                            <div className="flex items-center gap-2">
+                              <div 
+                                className="w-4 h-4 rounded border" 
+                                style={{ backgroundColor: colorItem.color.toLowerCase() }}
+                              />
+                              <span>{colorItem.color} (Stock: {colorItem.quantity})</span>
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
 
                 <div>
                   <Label htmlFor="type">Tipo de Movimento *</Label>
