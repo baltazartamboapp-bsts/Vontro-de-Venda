@@ -61,6 +61,7 @@ const History = ({ user }) => {
           product_id: formData.product_id,
           type: formData.type,
           quantity: parseInt(formData.quantity),
+          color: formData.color || null,
           note: formData.note
         },
         { withCredentials: true }
