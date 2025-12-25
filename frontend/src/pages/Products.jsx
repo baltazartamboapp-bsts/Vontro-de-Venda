@@ -89,7 +89,8 @@ const Products = ({ user }) => {
       purchase_price: product.purchase_price.toString(),
       sale_price: product.sale_price.toString(),
       currency: product.currency,
-      image: product.image
+      image: product.image,
+      colors: product.colors || []
     });
     setImagePreview(product.image);
     setIsDialogOpen(true);
