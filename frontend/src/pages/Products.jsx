@@ -118,10 +118,12 @@ const Products = ({ user }) => {
       purchase_price: '',
       sale_price: '',
       currency: 'MZN',
-      image: null
+      image: null,
+      colors: []
     });
     setEditingProduct(null);
     setImagePreview(null);
+    setNewColor({ color: '', quantity: '' });
   };
 
   const handleImageChange = (e) => {
@@ -145,6 +147,46 @@ const Products = ({ user }) => {
   const removeImage = () => {
     setFormData({ ...formData, image: null });
     setImagePreview(null);
+  };
+
+  const addColor = () => {
+    if (!newColor.color || !newColor.quantity) {
+      toast.error('Preencha cor e quantidade');
+      return;
+    }
+    
+    if (parseInt(newColor.quantity) < 0) {
+      toast.error('Quantidade deve ser positiva');
+      return;
+    }
+
+    const colorExists = formData.colors.find(c => c.color.toLowerCase() === newColor.color.toLowerCase());
+    if (colorExists) {
+      toast.error('Esta cor já foi adicionada');
+      return;
+    }
+
+    setFormData({
+      ...formData,
+      colors: [...formData.colors, { color: newColor.color, quantity: parseInt(newColor.quantity) }]
+    });
+    setNewColor({ color: '', quantity: '' });
+  };
+
+  const removeColor = (colorToRemove) => {
+    setFormData({
+      ...formData,
+      colors: formData.colors.filter(c => c.color !== colorToRemove)
+    });
+  };
+
+  const updateColorQuantity = (colorName, newQuantity) => {
+    setFormData({
+      ...formData,
+      colors: formData.colors.map(c => 
+        c.color === colorName ? { ...c, quantity: parseInt(newQuantity) || 0 } : c
+      )
+    });
   };
 
   const calculateProfit = (salePrice, purchasePrice) => {
