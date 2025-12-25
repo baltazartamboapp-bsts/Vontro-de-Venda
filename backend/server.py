@@ -33,6 +33,10 @@ class User(BaseModel):
     picture: Optional[str] = None
     created_at: datetime
 
+class ColorVariant(BaseModel):
+    color: str
+    quantity: int = 0
+
 class Product(BaseModel):
     model_config = ConfigDict(extra="ignore")
     product_id: str
@@ -42,7 +46,8 @@ class Product(BaseModel):
     purchase_price: float
     sale_price: float
     currency: str = "MZN"
-    image: Optional[str] = None  # Base64 encoded image
+    image: Optional[str] = None
+    colors: List[ColorVariant] = []  # Lista de cores e quantidades
     created_at: datetime
     user_id: str
 
@@ -53,6 +58,7 @@ class ProductCreate(BaseModel):
     sale_price: float = Field(..., gt=0)
     currency: str = "MZN"
     image: Optional[str] = None
+    colors: List[ColorVariant] = []
 
 class StockMovement(BaseModel):
     model_config = ConfigDict(extra="ignore")
@@ -60,6 +66,7 @@ class StockMovement(BaseModel):
     product_id: str
     type: str  # entrada or saida
     quantity: int
+    color: Optional[str] = None  # Cor específica (se aplicável)
     date: datetime
     note: Optional[str] = None
     user_id: str
@@ -68,6 +75,7 @@ class MovementCreate(BaseModel):
     product_id: str
     type: str
     quantity: int = Field(..., gt=0)
+    color: Optional[str] = None
     note: Optional[str] = None
 
     @field_validator('type')
