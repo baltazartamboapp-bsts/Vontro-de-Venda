@@ -12,7 +12,12 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const Layout = ({ children, user }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    toast.success(`Idioma alterado para ${lng === 'pt' ? 'Português' : 'English'}`);
+  };
 
   const menuItems = [
     { path: '/dashboard', icon: Home, label: t('dashboard'), testId: 'nav-dashboard' },
