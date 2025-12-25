@@ -27,8 +27,10 @@ const Products = ({ user }) => {
     barcode: '',
     purchase_price: '',
     sale_price: '',
-    currency: 'MZN'
+    currency: 'MZN',
+    image: null
   });
+  const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
     fetchProducts();
