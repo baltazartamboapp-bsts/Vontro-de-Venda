@@ -86,8 +86,10 @@ const Products = ({ user }) => {
       barcode: product.barcode,
       purchase_price: product.purchase_price.toString(),
       sale_price: product.sale_price.toString(),
-      currency: product.currency
+      currency: product.currency,
+      image: product.image
     });
+    setImagePreview(product.image);
     setIsDialogOpen(true);
   };
 
