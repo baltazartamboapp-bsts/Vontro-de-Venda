@@ -2,7 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 const resources = {
-  pt: {
+  'pt-MZ': {
     translation: {
       "app_name": "Controle de Venda",
       "login": "Entrar",
@@ -18,14 +18,14 @@ const resources = {
       "settings": "Configurações",
       "product_name": "Nome do Produto",
       "barcode": "Código de Barras",
-      "current_stock": "Stock Atual",
+      "current_stock": "Stock Actual",
       "purchase_price": "Preço de Compra",
       "sale_price": "Preço de Venda",
       "currency": "Moeda",
       "add_product": "Adicionar Produto",
       "edit_product": "Editar Produto",
       "delete_product": "Eliminar Produto",
-      "scan_barcode": "Escanear Código de Barras",
+      "scan_barcode": "Escanear Código",
       "entry": "Entrada",
       "exit": "Saída",
       "quantity": "Quantidade",
@@ -62,13 +62,6 @@ const resources = {
       "subject": "Assunto",
       "message": "Mensagem",
       "send": "Enviar",
-      "whatsapp_support": "Suporte via WhatsApp",
-      "product_not_found": "Produto não encontrado",
-      "create_new_product": "Criar Novo Produto",
-      "product_details": "Detalhes do Produto",
-      "quick_actions": "Ações Rápidas",
-      "add_entry": "Adicionar Entrada",
-      "add_exit": "Adicionar Saída",
       "success": "Sucesso",
       "error": "Erro",
       "loading": "Carregando...",
@@ -76,11 +69,156 @@ const resources = {
       "product_updated": "Produto actualizado com sucesso",
       "product_deleted": "Produto eliminado com sucesso",
       "movement_created": "Movimento criado com sucesso",
-      "insufficient_stock": "Stock insuficiente",
-      "please_wait": "Por favor, aguarde..."
+      "insufficient_stock": "Stock insuficiente"
     }
   },
-  en: {
+  'pt-BR': {
+    translation: {
+      "app_name": "Controle de Venda",
+      "login": "Entrar",
+      "logout": "Sair",
+      "login_with_google": "Entrar com Google",
+      "welcome": "Bem-vindo",
+      "dashboard": "Painel",
+      "products": "Produtos",
+      "scanner": "Scanner",
+      "history": "Histórico",
+      "reports": "Relatórios",
+      "support": "Suporte",
+      "settings": "Configurações",
+      "product_name": "Nome do Produto",
+      "barcode": "Código de Barras",
+      "current_stock": "Estoque Atual",
+      "purchase_price": "Preço de Compra",
+      "sale_price": "Preço de Venda",
+      "currency": "Moeda",
+      "add_product": "Adicionar Produto",
+      "edit_product": "Editar Produto",
+      "delete_product": "Excluir Produto",
+      "scan_barcode": "Escanear Código",
+      "entry": "Entrada",
+      "exit": "Saída",
+      "quantity": "Quantidade",
+      "note": "Nota",
+      "date": "Data",
+      "type": "Tipo",
+      "save": "Salvar",
+      "cancel": "Cancelar",
+      "search": "Pesquisar"
+    }
+  },
+  'pt-PT': {
+    translation: {
+      "app_name": "Controlo de Venda",
+      "login": "Entrar",
+      "logout": "Sair",
+      "login_with_google": "Entrar com Google",
+      "welcome": "Bem-vindo",
+      "dashboard": "Painel",
+      "products": "Produtos",
+      "scanner": "Scanner",
+      "history": "Histórico",
+      "reports": "Relatórios",
+      "support": "Suporte",
+      "settings": "Definições",
+      "product_name": "Nome do Produto",
+      "barcode": "Código de Barras",
+      "current_stock": "Stock Actual",
+      "purchase_price": "Preço de Compra",
+      "sale_price": "Preço de Venda"
+    }
+  },
+  'es': {
+    translation: {
+      "app_name": "Control de Ventas",
+      "login": "Iniciar Sesión",
+      "logout": "Cerrar Sesión",
+      "login_with_google": "Iniciar con Google",
+      "welcome": "Bienvenido",
+      "dashboard": "Panel",
+      "products": "Productos",
+      "scanner": "Escáner",
+      "history": "Historial",
+      "reports": "Informes",
+      "support": "Soporte",
+      "settings": "Configuración",
+      "product_name": "Nombre del Producto",
+      "barcode": "Código de Barras",
+      "current_stock": "Stock Actual",
+      "purchase_price": "Precio de Compra",
+      "sale_price": "Precio de Venta"
+    }
+  },
+  'fr': {
+    translation: {
+      "app_name": "Contrôle des Ventes",
+      "login": "Connexion",
+      "logout": "Déconnexion",
+      "login_with_google": "Se connecter avec Google",
+      "welcome": "Bienvenue",
+      "dashboard": "Tableau de bord",
+      "products": "Produits",
+      "scanner": "Scanner",
+      "history": "Historique",
+      "reports": "Rapports",
+      "support": "Support",
+      "settings": "Paramètres",
+      "product_name": "Nom du Produit",
+      "barcode": "Code-barres",
+      "current_stock": "Stock Actuel",
+      "purchase_price": "Prix d'Achat",
+      "sale_price": "Prix de Vente"
+    }
+  },
+  'zu': {
+    translation: {
+      "app_name": "Ukulawula Ukuthengisa",
+      "login": "Ngena",
+      "logout": "Phuma",
+      "login_with_google": "Ngena nge-Google",
+      "welcome": "Siyakwamukela",
+      "dashboard": "Ibhodi",
+      "products": "Imikhiqizo",
+      "scanner": "Isikena",
+      "history": "Umlando",
+      "reports": "Imibiko",
+      "support": "Usekelo",
+      "settings": "Izilungiselelo"
+    }
+  },
+  'sn': {
+    translation: {
+      "app_name": "Kudzora Kutengesa",
+      "login": "Pinda",
+      "logout": "Buda",
+      "login_with_google": "Pinda ne-Google",
+      "welcome": "Mauya",
+      "dashboard": "Bhodhi",
+      "products": "Zvigadzirwa",
+      "scanner": "Sikena",
+      "history": "Nhoroondo",
+      "reports": "Mishumo",
+      "support": "Rubatsiro",
+      "settings": "Mamiriro"
+    }
+  },
+  'sw': {
+    translation: {
+      "app_name": "Udhibiti wa Mauzo",
+      "login": "Ingia",
+      "logout": "Toka",
+      "login_with_google": "Ingia kwa Google",
+      "welcome": "Karibu",
+      "dashboard": "Dashibodi",
+      "products": "Bidhaa",
+      "scanner": "Skana",
+      "history": "Historia",
+      "reports": "Ripoti",
+      "support": "Msaada",
+      "settings": "Mipangilio"
+    }
+  },
+  'en-ZA': {
     translation: {
       "app_name": "Sales Control",
       "login": "Login",
@@ -98,64 +236,28 @@ const resources = {
       "barcode": "Barcode",
       "current_stock": "Current Stock",
       "purchase_price": "Purchase Price",
-      "sale_price": "Sale Price",
-      "currency": "Currency",
-      "add_product": "Add Product",
-      "edit_product": "Edit Product",
-      "delete_product": "Delete Product",
-      "scan_barcode": "Scan Barcode",
-      "entry": "Entry",
-      "exit": "Exit",
-      "quantity": "Quantity",
-      "note": "Note",
-      "date": "Date",
-      "type": "Type",
-      "add_movement": "Add Movement",
-      "movement_type": "Movement Type",
-      "entrada": "Entry",
-      "saida": "Exit",
-      "save": "Save",
-      "cancel": "Cancel",
-      "search": "Search",
-      "no_products": "No products",
-      "no_movements": "No movements",
-      "total_products": "Total Products",
-      "total_stock_value": "Total Stock Value",
-      "potential_revenue": "Potential Revenue",
-      "low_stock_alert": "Low Stock Alert",
-      "profit": "Profit",
-      "margin": "Margin",
-      "markup": "Markup",
-      "convert_currency": "Convert Currency",
-      "from": "From",
-      "to": "To",
-      "amount": "Amount",
-      "convert": "Convert",
-      "language": "Language",
-      "base_currency": "Base Currency",
-      "theme": "Theme",
-      "light": "Light",
-      "dark": "Dark",
-      "contact_support": "Contact Support",
-      "subject": "Subject",
-      "message": "Message",
-      "send": "Send",
-      "whatsapp_support": "WhatsApp Support",
-      "product_not_found": "Product not found",
-      "create_new_product": "Create New Product",
-      "product_details": "Product Details",
-      "quick_actions": "Quick Actions",
-      "add_entry": "Add Entry",
-      "add_exit": "Add Exit",
-      "success": "Success",
-      "error": "Error",
-      "loading": "Loading...",
-      "product_created": "Product created successfully",
-      "product_updated": "Product updated successfully",
-      "product_deleted": "Product deleted successfully",
-      "movement_created": "Movement created successfully",
-      "insufficient_stock": "Insufficient stock",
-      "please_wait": "Please wait..."
+      "sale_price": "Sale Price"
+    }
+  },
+  'en-US': {
+    translation: {
+      "app_name": "Sales Control",
+      "login": "Login",
+      "logout": "Logout",
+      "login_with_google": "Login with Google",
+      "welcome": "Welcome",
+      "dashboard": "Dashboard",
+      "products": "Products",
+      "scanner": "Scanner",
+      "history": "History",
+      "reports": "Reports",
+      "support": "Support",
+      "settings": "Settings",
+      "product_name": "Product Name",
+      "barcode": "Barcode",
+      "current_stock": "Current Stock",
+      "purchase_price": "Purchase Price",
+      "sale_price": "Sale Price"
     }
   }
 };
@@ -164,8 +266,8 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'pt',
-    fallbackLng: 'pt',
+    lng: 'pt-MZ',
+    fallbackLng: 'pt-MZ',
     interpolation: {
       escapeValue: false
     }
