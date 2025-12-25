@@ -235,7 +235,8 @@ async def update_product(product_id: str, product: ProductCreate, request: Reque
         "barcode": product.barcode,
         "purchase_price": product.purchase_price,
         "sale_price": product.sale_price,
-        "currency": product.currency
+        "currency": product.currency,
+        "image": product.image
     }
     
     await db.products.update_one({"product_id": product_id}, {"$set": update_data})
