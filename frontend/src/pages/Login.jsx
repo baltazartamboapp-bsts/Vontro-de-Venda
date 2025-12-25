@@ -26,13 +26,29 @@ const Login = () => {
           <Package className="w-6 h-6 text-emerald-600" />
           <span className="font-bold text-slate-900">{t('app_name')}</span>
         </div>
-        <a 
-          href="tel:+258845234933" 
-          className="flex items-center gap-2 text-slate-700 hover:text-emerald-600 transition-colors"
-        >
-          <Phone className="w-5 h-5" />
-          <span className="hidden sm:inline font-medium">845234933</span>
-        </a>
+        <div className="flex items-center gap-3">
+          <Select value={i18n.language} onValueChange={changeLanguage}>
+            <SelectTrigger className="w-32 h-9 border-slate-300">
+              <SelectValue>
+                <span className="flex items-center gap-1">
+                  <Globe className="w-4 h-4" />
+                  {i18n.language === 'pt' ? '🇲🇿 PT' : '🇬🇧 EN'}
+                </span>
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="pt">🇲🇿 Português</SelectItem>
+              <SelectItem value="en">🇬🇧 English</SelectItem>
+            </SelectContent>
+          </Select>
+          <a 
+            href="tel:+258845234933" 
+            className="flex items-center gap-2 text-slate-700 hover:text-emerald-600 transition-colors"
+          >
+            <Phone className="w-5 h-5" />
+            <span className="hidden sm:inline font-medium">845234933</span>
+          </a>
+        </div>
       </div>
 
       {/* Left Side - Hero Image */}
