@@ -28,9 +28,11 @@ const Products = ({ user }) => {
     purchase_price: '',
     sale_price: '',
     currency: 'MZN',
-    image: null
+    image: null,
+    colors: []
   });
   const [imagePreview, setImagePreview] = useState(null);
+  const [newColor, setNewColor] = useState({ color: '', quantity: '' });
 
   useEffect(() => {
     fetchProducts();
