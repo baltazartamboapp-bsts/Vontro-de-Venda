@@ -238,6 +238,36 @@ const Products = ({ user }) => {
                     </SelectContent>
                   </Select>
                 </div>
+                <div>
+                  <Label htmlFor="image">Imagem do Produto</Label>
+                  <div className="space-y-2">
+                    <Input
+                      id="image"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      data-testid="product-image-input"
+                    />
+                    {imagePreview && (
+                      <div className="relative">
+                        <img 
+                          src={imagePreview} 
+                          alt="Preview" 
+                          className="w-full h-32 object-cover rounded border"
+                        />
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          onClick={removeImage}
+                          className="absolute top-1 right-1"
+                        >
+                          ×
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </div>
                 <div className="flex gap-2 pt-4">
                   <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)} className="flex-1">
                     {t('cancel')}
