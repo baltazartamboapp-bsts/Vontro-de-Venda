@@ -11,10 +11,13 @@ import Dashboard from './pages/Dashboard';
 import Products from './pages/Products';
 import Scanner from './pages/Scanner';
 import CurrencyConverter from './pages/CurrencyConverter';
+import Calculator from './pages/Calculator';
 import History from './pages/History';
 import Reports from './pages/Reports';
 import Support from './pages/Support';
 import Settings from './pages/Settings';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function AppRouter() {
