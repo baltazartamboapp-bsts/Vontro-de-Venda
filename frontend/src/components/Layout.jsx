@@ -41,6 +41,14 @@ const Layout = ({ children, user }) => {
     <div className="min-h-screen bg-slate-50">
       {/* Desktop Sidebar */}
       <aside className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col bg-white border-r border-slate-200">
+        {/* Top Contact Bar - Desktop */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 bg-slate-50">
+          <a href="tel:+258845234933" className="flex items-center gap-2 text-sm text-slate-600 hover:text-emerald-600 transition-colors">
+            <Phone className="w-4 h-4" />
+            <span className="font-medium">845234933</span>
+          </a>
+        </div>
+        
         <div className="flex flex-col flex-grow pt-5 pb-4 overflow-y-auto">
           <div className="flex items-center flex-shrink-0 px-4 mb-8">
             <Package className="w-8 h-8 text-emerald-600" />
