@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Home, Package, ScanBarcode, History, BarChart3, Headphones, Settings, LogOut } from 'lucide-react';
+import { Home, Package, ScanBarcode, History, BarChart3, Headphones, Settings, LogOut, DollarSign } from 'lucide-react';
 import { Button } from './ui/button';
 import axios from 'axios';
 import { toast } from 'sonner';
