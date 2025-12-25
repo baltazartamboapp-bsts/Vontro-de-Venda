@@ -321,6 +321,81 @@ const Products = ({ user }) => {
                     />
                   </div>
                 </div>
+                
+                {/* Gestão de Cores */}
+                <div className="border-t border-slate-200 pt-4">
+                  <Label className="text-base font-semibold">Gestão por Cores (opcional)</Label>
+                  <p className="text-xs text-slate-500 mb-3">Adicione cores e suas quantidades em stock</p>
+                  
+                  {/* Lista de cores adicionadas */}
+                  {formData.colors.length > 0 && (
+                    <div className="space-y-2 mb-3">
+                      {formData.colors.map((colorItem) => (
+                        <div key={colorItem.color} className="flex items-center gap-2 bg-slate-50 p-2 rounded border">
+                          <div 
+                            className="w-6 h-6 rounded border-2 border-slate-300" 
+                            style={{ backgroundColor: colorItem.color.toLowerCase() }}
+                            title={colorItem.color}
+                          />
+                          <span className="flex-1 font-medium text-sm">{colorItem.color}</span>
+                          <Input
+                            type="number"
+                            min="0"
+                            value={colorItem.quantity}
+                            onChange={(e) => updateColorQuantity(colorItem.color, e.target.value)}
+                            className="w-20 h-8"
+                            placeholder="Qtd"
+                          />
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => removeColor(colorItem.color)}
+                            className="text-red-500 hover:text-red-700"
+                          >
+                            ×
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  
+                  {/* Adicionar nova cor */}
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="Nome da cor"
+                      value={newColor.color}
+                      onChange={(e) => setNewColor({ ...newColor, color: e.target.value })}
+                      className="flex-1"
+                      data-testid="color-name-input"
+                    />
+                    <Input
+                      type="number"
+                      min="0"
+                      placeholder="Qtd"
+                      value={newColor.quantity}
+                      onChange={(e) => setNewColor({ ...newColor, quantity: e.target.value })}
+                      className="w-24"
+                      data-testid="color-quantity-input"
+                    />
+                    <Button
+                      type="button"
+                      onClick={addColor}
+                      variant="outline"
+                      size="sm"
+                      data-testid="add-color-btn"
+                    >
+                      + Adicionar
+                    </Button>
+                  </div>
+                  
+                  {formData.colors.length > 0 && (
+                    <div className="mt-2 text-sm text-slate-600">
+                      <strong>Stock Total:</strong> {formData.colors.reduce((sum, c) => sum + c.quantity, 0)} unidades
+                    </div>
+                  )}
+                </div>
+                
                 <div className="flex gap-2 pt-4">
                   <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)} className="flex-1">
                     {t('cancel')}
