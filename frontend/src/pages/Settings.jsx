@@ -177,6 +177,14 @@ const Settings = ({ user }) => {
                 <span className="text-2xl">🌍</span>
                 <p className="mt-1 font-medium">Multi-Idioma</p>
               </div>
+              <div className="text-center p-3 bg-white rounded-lg">
+                <span className="text-2xl">🧮</span>
+                <p className="mt-1 font-medium">Calculadora</p>
+              </div>
+              <div className="text-center p-3 bg-white rounded-lg">
+                <span className="text-2xl">🔒</span>
+                <p className="mt-1 font-medium">Segurança</p>
+              </div>
             </div>
           </CardContent>
         </Card>
