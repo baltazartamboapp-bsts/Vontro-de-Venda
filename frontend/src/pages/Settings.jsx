@@ -4,16 +4,10 @@ import { toast } from 'sonner';
 import Layout from '@/components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Globe, User, Info, Smartphone } from 'lucide-react';
+import { User, Info, Smartphone } from 'lucide-react';
 
 const Settings = ({ user }) => {
-  const { t, i18n } = useTranslation();
-
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-    toast.success(`Idioma alterado para ${lng === 'pt' ? 'Português' : 'English'}`);
-  };
+  const { t } = useTranslation();
 
   return (
     <Layout user={user}>
