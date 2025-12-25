@@ -214,15 +214,20 @@ async def create_product(product: ProductCreate, request: Request):
         raise HTTPException(status_code=400, detail="Product with this barcode already exists")
     
     product_id = f"prod_{uuid.uuid4().hex[:12]}"
+    
+    # Calcular stock total a partir das cores
+    total_stock = sum(color.quantity for color in product.colors) if product.colors else 0
+    
     product_doc = {
         "product_id": product_id,
         "name": product.name,
         "barcode": product.barcode,
-        "current_stock": 0,
+        "current_stock": total_stock,
         "purchase_price": product.purchase_price,
         "sale_price": product.sale_price,
         "currency": product.currency,
         "image": product.image,
+        "colors": [{"color": c.color, "quantity": c.quantity} for c in product.colors],
         "created_at": datetime.now(timezone.utc),
         "user_id": user.user_id
     }
