@@ -10,6 +10,7 @@ import AuthCallback from './pages/AuthCallback';
 import Dashboard from './pages/Dashboard';
 import Products from './pages/Products';
 import Scanner from './pages/Scanner';
+import CurrencyConverter from './pages/CurrencyConverter';
 import History from './pages/History';
 import Reports from './pages/Reports';
 import Support from './pages/Support';
