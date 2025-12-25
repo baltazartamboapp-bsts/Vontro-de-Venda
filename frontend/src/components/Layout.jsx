@@ -123,7 +123,18 @@ const Layout = ({ children, user }) => {
             <Package className="w-6 h-6 text-emerald-600" />
             <span className="ml-2 text-lg font-bold text-slate-900">{t('app_name')}</span>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <Select value={i18n.language} onValueChange={changeLanguage}>
+              <SelectTrigger className="w-16 h-8 text-xs border-slate-300">
+                <SelectValue>
+                  <span>{i18n.language === 'pt' ? '🇲🇿' : '🇬🇧'}</span>
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="pt">🇲🇿 PT</SelectItem>
+                <SelectItem value="en">🇬🇧 EN</SelectItem>
+              </SelectContent>
+            </Select>
             <a href="tel:+258845234933" className="text-slate-600 hover:text-emerald-600 transition-colors">
               <Phone className="w-5 h-5" />
             </a>
