@@ -121,6 +121,27 @@ const Settings = ({ user }) => {
               >
                 📷 Scanner
               </Button>
+              <Button 
+                variant="outline" 
+                className="h-14 justify-start"
+                onClick={() => window.location.href = '/calculator'}
+              >
+                🧮 Calculadora
+              </Button>
+              <Button 
+                variant="outline" 
+                className="h-14 justify-start"
+                onClick={() => window.location.href = '/privacy'}
+              >
+                🔒 Privacidade
+              </Button>
+              <Button 
+                variant="outline" 
+                className="h-14 justify-start"
+                onClick={() => window.location.href = '/terms'}
+              >
+                📋 Termos de Uso
+              </Button>
             </div>
           </CardContent>
         </Card>
