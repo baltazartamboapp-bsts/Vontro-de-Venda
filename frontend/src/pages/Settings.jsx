@@ -23,42 +23,6 @@ const Settings = ({ user }) => {
           <p className="text-slate-600 mt-1">Definições da aplicação</p>
         </div>
 
-        {/* Language Settings */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Globe className="w-5 h-5" />
-              Idioma
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <Label>Selecionar Idioma</Label>
-              <div className="grid grid-cols-2 gap-3">
-                <Button
-                  variant={i18n.language === 'pt' ? 'default' : 'outline'}
-                  onClick={() => changeLanguage('pt')}
-                  className={`w-full h-14 ${i18n.language === 'pt' ? 'bg-emerald-600 hover:bg-emerald-700' : ''}`}
-                  data-testid="lang-pt-btn"
-                >
-                  🇲🇿 Português
-                </Button>
-                <Button
-                  variant={i18n.language === 'en' ? 'default' : 'outline'}
-                  onClick={() => changeLanguage('en')}
-                  className={`w-full h-14 ${i18n.language === 'en' ? 'bg-emerald-600 hover:bg-emerald-700' : ''}`}
-                  data-testid="lang-en-btn"
-                >
-                  🇬🇧 English
-                </Button>
-              </div>
-              <p className="text-xs text-slate-500 mt-2">
-                Mais idiomas serão adicionados em breve: Português (Brasil, Portugal), Espanhol, Francês, Zulu, Chona, Suaíli
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* User Account Info */}
         <Card>
           <CardHeader>
