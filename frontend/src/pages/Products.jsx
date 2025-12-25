@@ -488,6 +488,30 @@ const Products = ({ user }) => {
                       <span className="text-slate-600">{t('current_stock')}:</span>
                       <span className="font-bold mono">{product.current_stock}</span>
                     </div>
+                    
+                    {/* Mostrar cores se existirem */}
+                    {product.colors && product.colors.length > 0 && (
+                      <div className="border-t border-slate-200 pt-2">
+                        <p className="text-xs text-slate-500 mb-2">Cores disponíveis:</p>
+                        <div className="flex flex-wrap gap-1">
+                          {product.colors.map((colorItem) => (
+                            <div 
+                              key={colorItem.color}
+                              className="inline-flex items-center gap-1 bg-slate-100 px-2 py-1 rounded text-xs"
+                              title={`${colorItem.color}: ${colorItem.quantity} unidades`}
+                            >
+                              <div 
+                                className="w-3 h-3 rounded-full border border-slate-300" 
+                                style={{ backgroundColor: colorItem.color.toLowerCase() }}
+                              />
+                              <span className="font-medium">{colorItem.color}</span>
+                              <span className="text-slate-500">({colorItem.quantity})</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
                     <div className="flex justify-between">
                       <span className="text-slate-600">{t('purchase_price')}:</span>
                       <span className="mono">{product.purchase_price} {product.currency}</span>
