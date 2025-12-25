@@ -15,9 +15,24 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex bg-slate-50">
+      {/* Top Contact Bar - Mobile/Desktop */}
+      <div className="fixed top-0 left-0 right-0 bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between z-50">
+        <div className="flex items-center gap-2">
+          <Package className="w-6 h-6 text-emerald-600" />
+          <span className="font-bold text-slate-900">{t('app_name')}</span>
+        </div>
+        <a 
+          href="tel:+258845234933" 
+          className="flex items-center gap-2 text-slate-700 hover:text-emerald-600 transition-colors"
+        >
+          <Phone className="w-5 h-5" />
+          <span className="hidden sm:inline font-medium">845234933</span>
+        </a>
+      </div>
+
       {/* Left Side - Hero Image */}
       <div 
-        className="hidden lg:block lg:w-1/2 bg-cover bg-center relative"
+        className="hidden lg:block lg:w-1/2 bg-cover bg-center relative mt-16"
         style={{ backgroundImage: 'url(https://images.pexels.com/photos/4484072/pexels-photo-4484072.jpeg)' }}
       >
         <div className="absolute inset-0 bg-slate-900 bg-opacity-60 flex items-center justify-center">
