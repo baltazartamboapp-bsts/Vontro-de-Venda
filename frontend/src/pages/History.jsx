@@ -77,8 +77,10 @@ const History = ({ user }) => {
         product_id: '',
         type: 'entrada',
         quantity: '1',
+        color: '',
         note: ''
       });
+      setSelectedProduct(null);
       fetchData();
     } catch (error) {
       console.error('Failed to add movement:', error);
