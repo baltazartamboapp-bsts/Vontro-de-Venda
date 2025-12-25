@@ -113,6 +113,26 @@ const Login = () => {
             </div>
           </div>
         </Card>
+
+        {/* Footer com links legais */}
+        <div className="text-center mt-6 text-sm text-slate-600">
+          <div className="flex items-center justify-center gap-4">
+            <button 
+              onClick={() => window.location.href = '/privacy'}
+              className="hover:text-emerald-600 underline"
+            >
+              Política de Privacidade
+            </button>
+            <span>•</span>
+            <button 
+              onClick={() => window.location.href = '/terms'}
+              className="hover:text-emerald-600 underline"
+            >
+              Termos de Uso
+            </button>
+          </div>
+          <p className="mt-2 text-xs">© 2024 Controle de Venda. Todos os direitos reservados.</p>
+        </div>
       </div>
     </div>
   );
