@@ -296,8 +296,44 @@ async def create_movement(movement: MovementCreate, request: Request):
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     
-    if movement.type == "saida" and product["current_stock"] < movement.quantity:
-        raise HTTPException(status_code=400, detail="Insufficient stock")
+    # Se o produto tem cores e uma cor específica foi fornecida
+    if movement.color:
+        colors = product.get("colors", [])
+        color_index = next((i for i, c in enumerate(colors) if c["color"] == movement.color), None)
+        
+        if color_index is None:
+            raise HTTPException(status_code=400, detail=f"Color '{movement.color}' not found in product")
+        
+        if movement.type == "saida" and colors[color_index]["quantity"] < movement.quantity:
+            raise HTTPException(status_code=400, detail="Insufficient stock for this color")
+        
+        # Atualizar quantidade da cor específica
+        if movement.type == "entrada":
+            colors[color_index]["quantity"] += movement.quantity
+        else:
+            colors[color_index]["quantity"] -= movement.quantity
+        
+        # Recalcular stock total
+        total_stock = sum(c["quantity"] for c in colors)
+        
+        await db.products.update_one(
+            {"product_id": movement.product_id},
+            {"$set": {"colors": colors, "current_stock": total_stock}}
+        )
+    else:
+        # Movimento sem cor específica (comportamento antigo)
+        if movement.type == "saida" and product["current_stock"] < movement.quantity:
+            raise HTTPException(status_code=400, detail="Insufficient stock")
+        
+        if movement.type == "entrada":
+            new_stock = product["current_stock"] + movement.quantity
+        else:
+            new_stock = product["current_stock"] - movement.quantity
+        
+        await db.products.update_one(
+            {"product_id": movement.product_id},
+            {"$set": {"current_stock": new_stock}}
+        )
     
     movement_id = f"mov_{uuid.uuid4().hex[:12]}"
     movement_doc = {
@@ -305,22 +341,13 @@ async def create_movement(movement: MovementCreate, request: Request):
         "product_id": movement.product_id,
         "type": movement.type,
         "quantity": movement.quantity,
+        "color": movement.color,
         "date": datetime.now(timezone.utc),
         "note": movement.note,
         "user_id": user.user_id
     }
     
     await db.stock_movements.insert_one(movement_doc)
-    
-    if movement.type == "entrada":
-        new_stock = product["current_stock"] + movement.quantity
-    else:
-        new_stock = product["current_stock"] - movement.quantity
-    
-    await db.products.update_one(
-        {"product_id": movement.product_id},
-        {"$set": {"current_stock": new_stock}}
-    )
     
     return StockMovement(**movement_doc)
 
