@@ -225,15 +225,20 @@ const Products = ({ user }) => {
         <Card>
           <CardContent className="pt-6">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-6 h-6" />
               <Input
-                placeholder={t('search')}
+                placeholder="Pesquisar por nome ou código de barras..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-14 h-16 text-lg border-2 border-slate-300 focus:border-emerald-500"
                 data-testid="search-products-input"
               />
             </div>
+            {searchTerm && (
+              <div className="mt-3 text-sm text-slate-600">
+                Encontrados: <span className="font-bold text-emerald-600">{filteredProducts.length}</span> produtos
+              </div>
+            )}
           </CardContent>
         </Card>
 
