@@ -239,33 +239,41 @@ const Products = ({ user }) => {
                   </Select>
                 </div>
                 <div>
-                  <Label htmlFor="image">Imagem do Produto</Label>
-                  <div className="space-y-2">
-                    <Input
-                      id="image"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                      data-testid="product-image-input"
-                    />
-                    {imagePreview && (
-                      <div className="relative">
+                  <Label htmlFor="image">Foto do Produto (opcional)</Label>
+                  <div className="space-y-3">
+                    {imagePreview ? (
+                      <div className="relative group">
                         <img 
                           src={imagePreview} 
                           alt="Preview" 
-                          className="w-full h-32 object-cover rounded border"
+                          className="w-full h-48 object-cover rounded-lg border-2 border-slate-200"
                         />
                         <Button
                           type="button"
                           variant="destructive"
                           size="sm"
                           onClick={removeImage}
-                          className="absolute top-1 right-1"
+                          className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
                         >
-                          ×
+                          Remover Foto
                         </Button>
                       </div>
+                    ) : (
+                      <div className="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center hover:border-emerald-400 transition-colors cursor-pointer"
+                           onClick={() => document.getElementById('image').click()}>
+                        <Package className="w-12 h-12 text-slate-400 mx-auto mb-2" />
+                        <p className="text-sm text-slate-600 mb-1">Clique para adicionar foto</p>
+                        <p className="text-xs text-slate-500">JPG, PNG até 5MB</p>
+                      </div>
                     )}
+                    <Input
+                      id="image"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="hidden"
+                      data-testid="product-image-input"
+                    />
                   </div>
                 </div>
                 <div className="flex gap-2 pt-4">
