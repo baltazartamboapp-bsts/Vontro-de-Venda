@@ -329,50 +329,51 @@ const Products = ({ user }) => {
                 </div>
                 
                 {/* Gestão de Cores */}
-                <div className="border-t border-slate-200 pt-4">
-                  <Label className="text-base font-semibold">Gestão por Cores (opcional)</Label>
-                  <p className="text-xs text-slate-500 mb-3">Adicione cores e suas quantidades em stock</p>
+                <div className="border-t border-slate-200 pt-3">
+                  <Label className="text-sm font-semibold">Gestão por Cores (opcional)</Label>
+                  <p className="text-xs text-slate-500 mb-2">Adicione cores e quantidades</p>
                   
                   {/* Lista de cores adicionadas */}
                   {formData.colors.length > 0 && (
-                    <div className="space-y-2 mb-3">
+                    <div className="space-y-1 mb-2">
                       {formData.colors.map((colorItem) => (
-                        <div key={colorItem.color} className="flex items-center gap-2 bg-slate-50 p-2 rounded border">
+                        <div key={colorItem.color} className="flex items-center gap-2 bg-slate-50 p-2 rounded text-sm">
                           <div 
-                            className="w-6 h-6 rounded border-2 border-slate-300" 
+                            className="w-4 h-4 rounded border-2 border-slate-300 flex-shrink-0" 
                             style={{ backgroundColor: colorItem.color.toLowerCase() }}
-                            title={colorItem.color}
                           />
-                          <span className="flex-1 font-medium text-sm">{colorItem.color}</span>
+                          <span className="flex-1 font-medium text-xs">{colorItem.color}</span>
                           <Input
                             type="number"
                             min="0"
                             value={colorItem.quantity}
                             onChange={(e) => updateColorQuantity(colorItem.color, e.target.value)}
-                            className="w-20 h-8"
-                            placeholder="Qtd"
+                            className="w-16 h-7 text-xs"
                           />
                           <Button
                             type="button"
                             variant="ghost"
                             size="sm"
                             onClick={() => removeColor(colorItem.color)}
-                            className="text-red-500 hover:text-red-700"
+                            className="text-red-500 hover:text-red-700 h-7 w-7 p-0"
                           >
                             ×
                           </Button>
                         </div>
                       ))}
+                      <div className="text-xs text-slate-600 px-2">
+                        <strong>Total:</strong> {formData.colors.reduce((sum, c) => sum + c.quantity, 0)} unid.
+                      </div>
                     </div>
                   )}
                   
                   {/* Adicionar nova cor */}
                   <div className="flex gap-2">
                     <Input
-                      placeholder="Nome da cor"
+                      placeholder="Cor"
                       value={newColor.color}
                       onChange={(e) => setNewColor({ ...newColor, color: e.target.value })}
-                      className="flex-1"
+                      className="flex-1 h-9 text-sm"
                       data-testid="color-name-input"
                     />
                     <Input
@@ -381,7 +382,7 @@ const Products = ({ user }) => {
                       placeholder="Qtd"
                       value={newColor.quantity}
                       onChange={(e) => setNewColor({ ...newColor, quantity: e.target.value })}
-                      className="w-24"
+                      className="w-20 h-9 text-sm"
                       data-testid="color-quantity-input"
                     />
                     <Button
@@ -389,20 +390,16 @@ const Products = ({ user }) => {
                       onClick={addColor}
                       variant="outline"
                       size="sm"
+                      className="h-9 text-xs px-2"
                       data-testid="add-color-btn"
                     >
-                      + Adicionar
+                      + Add
                     </Button>
                   </div>
-                  
-                  {formData.colors.length > 0 && (
-                    <div className="mt-2 text-sm text-slate-600">
-                      <strong>Stock Total:</strong> {formData.colors.reduce((sum, c) => sum + c.quantity, 0)} unidades
-                    </div>
-                  )}
                 </div>
                 
-                <div className="flex gap-2 pt-4">
+                {/* Botões */}
+                <div className="flex gap-2 pt-3 sticky bottom-0 bg-white border-t pb-2">
                   <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)} className="flex-1">
                     {t('cancel')}
                   </Button>
