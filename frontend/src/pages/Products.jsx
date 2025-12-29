@@ -251,32 +251,35 @@ const Products = ({ user }) => {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <Label htmlFor="purchase_price" className="text-sm">{t('purchase_price')}</Label>
-                  <Input
-                    id="purchase_price"
-                    type="number"
-                    step="0.01"
-                    data-testid="product-purchase-price-input"
-                    value={formData.purchase_price}
-                    onChange={(e) => setFormData({ ...formData, purchase_price: e.target.value })}
-                    required
-                  />
+                    <Input
+                      id="purchase_price"
+                      type="number"
+                      step="0.01"
+                      data-testid="product-purchase-price-input"
+                      value={formData.purchase_price}
+                      onChange={(e) => setFormData({ ...formData, purchase_price: e.target.value })}
+                      required
+                      className="h-10"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="sale_price" className="text-sm">{t('sale_price')}</Label>
+                    <Input
+                      id="sale_price"
+                      type="number"
+                      step="0.01"
+                      data-testid="product-sale-price-input"
+                      value={formData.sale_price}
+                      onChange={(e) => setFormData({ ...formData, sale_price: e.target.value })}
+                      required
+                      className="h-10"
+                    />
+                  </div>
                 </div>
                 <div>
-                  <Label htmlFor="sale_price">{t('sale_price')}</Label>
-                  <Input
-                    id="sale_price"
-                    type="number"
-                    step="0.01"
-                    data-testid="product-sale-price-input"
-                    value={formData.sale_price}
-                    onChange={(e) => setFormData({ ...formData, sale_price: e.target.value })}
-                    required
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="currency">{t('currency')}</Label>
+                  <Label htmlFor="currency" className="text-sm">{t('currency')}</Label>
                   <Select value={formData.currency} onValueChange={(value) => setFormData({ ...formData, currency: value })}>
-                    <SelectTrigger data-testid="product-currency-select">
+                    <SelectTrigger data-testid="product-currency-select" className="h-10">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
