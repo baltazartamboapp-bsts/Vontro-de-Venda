@@ -290,31 +290,31 @@ const Products = ({ user }) => {
                   </Select>
                 </div>
                 <div>
-                  <Label htmlFor="image">Foto do Produto (opcional)</Label>
-                  <div className="space-y-3">
+                  <Label htmlFor="image" className="text-sm font-semibold">Foto do Produto (opcional)</Label>
+                  <div className="mt-2">
                     {imagePreview ? (
                       <div className="relative group">
                         <img 
                           src={imagePreview} 
                           alt="Preview" 
-                          className="w-full h-48 object-cover rounded-lg border-2 border-slate-200"
+                          className="w-full h-32 object-cover rounded-lg border-2 border-slate-200"
                         />
                         <Button
                           type="button"
                           variant="destructive"
                           size="sm"
                           onClick={removeImage}
-                          className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="absolute top-1 right-1 h-7 text-xs"
                         >
-                          Remover Foto
+                          Remover
                         </Button>
                       </div>
                     ) : (
-                      <div className="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center hover:border-emerald-400 transition-colors cursor-pointer"
+                      <div className="border-2 border-dashed border-slate-300 rounded-lg p-4 text-center hover:border-emerald-400 transition-colors cursor-pointer"
                            onClick={() => document.getElementById('image').click()}>
-                        <Package className="w-12 h-12 text-slate-400 mx-auto mb-2" />
-                        <p className="text-sm text-slate-600 mb-1">Clique para adicionar foto</p>
-                        <p className="text-xs text-slate-500">JPG, PNG até 5MB</p>
+                        <Package className="w-8 h-8 text-slate-400 mx-auto mb-1" />
+                        <p className="text-xs text-slate-600">Clique para adicionar foto</p>
+                        <p className="text-xs text-slate-500">Até 5MB</p>
                       </div>
                     )}
                     <Input
