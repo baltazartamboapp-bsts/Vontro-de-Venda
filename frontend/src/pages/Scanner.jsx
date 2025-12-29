@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -9,13 +9,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Camera, CameraOff, Package, Plus, ArrowRight } from 'lucide-react';
+import { Camera, CameraOff, ArrowRight, Plus } from 'lucide-react';
+import { Html5Qrcode } from 'html5-qrcode';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Scanner = ({ user }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [isScanning, setIsScanning] = useState(false);
   const [scannedCode, setScannedCode] = useState('');
   const [product, setProduct] = useState(null);
   const [showProductDialog, setShowProductDialog] = useState(false);
@@ -28,10 +30,62 @@ const Scanner = ({ user }) => {
     currency: 'MZN'
   });
   const [quantity, setQuantity] = useState('1');
-  const fileInputRef = useRef(null);
+  const [html5QrCode, setHtml5QrCode] = useState(null);
+
+  useEffect(() => {
+    return () => {
+      stopScanner();
+    };
+  }, []);
+
+  const startScanner = async () => {
+    try {
+      const scanner = new Html5Qrcode("reader");
+      setHtml5QrCode(scanner);
+
+      await scanner.start(
+        { facingMode: "environment" }, // Câmera traseira
+        {
+          fps: 10,
+          qrbox: { width: 250, height: 250 },
+          aspectRatio: 1.0
+        },
+        (decodedText, decodedResult) => {
+          // Sucesso ao ler código
+          handleScan(decodedText);
+          stopScanner();
+        },
+        (errorMessage) => {
+          // Erro durante scan (ignorar, é normal)
+        }
+      );
+
+      setIsScanning(true);
+      toast.success('Câmera aberta! Aponte para o código de barras');
+    } catch (err) {
+      console.error('Erro ao iniciar scanner:', err);
+      toast.error('Erro ao abrir câmera. Verifique as permissões.');
+      setIsScanning(false);
+    }
+  };
+
+  const stopScanner = async () => {
+    if (html5QrCode) {
+      try {
+        if (html5QrCode.isScanning) {
+          await html5QrCode.stop();
+        }
+        html5QrCode.clear();
+      } catch (err) {
+        console.error('Erro ao parar scanner:', err);
+      }
+    }
+    setIsScanning(false);
+  };
 
   const handleScan = async (barcode) => {
     setScannedCode(barcode);
+    toast.success(`Código detectado: ${barcode}`);
 
     try {
       const response = await axios.get(
@@ -48,7 +102,7 @@ const Scanner = ({ user }) => {
       }
     } catch (error) {
       console.error('Failed to check product:', error);
-      toast.error(t('error'));
+      toast.error('Erro ao buscar produto');
     }
   };
 
@@ -72,13 +126,13 @@ const Scanner = ({ user }) => {
         { withCredentials: true }
       );
 
-      toast.success(t('movement_created'));
+      toast.success(type === 'entrada' ? 'Entrada registrada!' : 'Saída registrada!');
       setShowProductDialog(false);
       setProduct(null);
       setQuantity('1');
     } catch (error) {
       console.error('Failed to add movement:', error);
-      toast.error(error.response?.data?.detail || t('error'));
+      toast.error(error.response?.data?.detail || 'Erro ao registrar movimento');
     }
   };
 
@@ -92,7 +146,7 @@ const Scanner = ({ user }) => {
         { withCredentials: true }
       );
 
-      toast.success(t('product_created'));
+      toast.success('Produto criado com sucesso!');
       setShowCreateDialog(false);
       setFormData({
         name: '',
@@ -103,86 +157,74 @@ const Scanner = ({ user }) => {
       });
     } catch (error) {
       console.error('Failed to create product:', error);
-      toast.error(error.response?.data?.detail || t('error'));
+      toast.error(error.response?.data?.detail || 'Erro ao criar produto');
     }
-  };
-
-  // Função para abrir câmera nativa
-  const openNativeCamera = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
-
-  // Processar imagem capturada
-  const handleImageCapture = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    toast.info('Processando imagem...');
-    
-    // Aqui você usaria uma API de leitura de código de barras
-    // Por enquanto, vou simular pedindo ao usuário para digitar
-    toast.info('Por favor, digite o código manualmente abaixo');
   };
 
   return (
     <Layout user={user}>
       <div className="space-y-6 fade-in">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900" data-testid="scanner-title">Scanner</h1>
-          <p className="text-slate-600 mt-1">Escanear código de barras</p>
+          <h1 className="text-3xl font-bold text-slate-900">Scanner</h1>
+          <p className="text-slate-600 mt-1">Escanear código de barras com câmera</p>
         </div>
 
         <Card>
           <CardContent className="pt-6">
-            <div className="space-y-4">
-              {/* Botão para abrir câmera */}
+            {!isScanning ? (
               <div className="text-center py-8">
-                <Camera className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  capture="environment"
-                  onChange={handleImageCapture}
-                  className="hidden"
-                />
+                <Camera className="w-20 h-20 text-emerald-600 mx-auto mb-4" />
                 <Button
-                  onClick={openNativeCamera}
-                  className="bg-emerald-600 hover:bg-emerald-700 w-full sm:w-auto"
+                  onClick={startScanner}
+                  className="bg-emerald-600 hover:bg-emerald-700 h-14 text-lg px-8"
                   data-testid="start-scan-btn"
                 >
-                  <Camera className="w-5 h-5 mr-2" />
-                  Abrir Câmera para Escanear
+                  <Camera className="w-6 h-6 mr-2" />
+                  Abrir Câmera
                 </Button>
-                <p className="text-xs text-slate-500 mt-2">
-                  Tire uma foto do código de barras
+                <p className="text-sm text-slate-500 mt-4">
+                  Aponte a câmera para o código de barras
                 </p>
               </div>
+            ) : (
+              <div className="space-y-4">
+                <div 
+                  id="reader" 
+                  className="w-full rounded-lg overflow-hidden border-4 border-emerald-500"
+                  style={{ minHeight: '300px' }}
+                />
+                <Button
+                  onClick={stopScanner}
+                  variant="destructive"
+                  className="w-full h-12"
+                  data-testid="stop-scan-btn"
+                >
+                  <CameraOff className="w-5 h-5 mr-2" />
+                  Parar Scanner
+                </Button>
+              </div>
+            )}
 
-              <div className="border-t border-slate-200 pt-4">
-                <Label htmlFor="manual-code" className="text-base font-semibold">Digite o Código Manualmente</Label>
-                <div className="flex gap-2 mt-2">
-                  <Input
-                    id="manual-code"
-                    placeholder="Digite o código de barras"
-                    value={scannedCode}
-                    onChange={(e) => setScannedCode(e.target.value)}
-                    className="h-12 text-lg"
-                    data-testid="manual-barcode-input"
-                  />
-                  <Button 
-                    onClick={handleManualInput}
-                    className="bg-emerald-600 hover:bg-emerald-700 h-12 px-6"
-                    data-testid="manual-search-btn"
-                  >
-                    <ArrowRight className="w-5 h-5" />
-                  </Button>
-                </div>
-                <p className="text-xs text-slate-500 mt-2">
-                  ✅ Forma mais confiável: digite o código que vê no produto
-                </p>
+            <div className="border-t border-slate-200 pt-4 mt-6">
+              <Label htmlFor="manual-code" className="text-base font-semibold">
+                Ou Digite o Código Manualmente
+              </Label>
+              <div className="flex gap-2 mt-2">
+                <Input
+                  id="manual-code"
+                  placeholder="Digite o código de barras"
+                  value={scannedCode}
+                  onChange={(e) => setScannedCode(e.target.value)}
+                  className="h-12 text-lg"
+                  data-testid="manual-barcode-input"
+                />
+                <Button 
+                  onClick={handleManualInput}
+                  className="bg-emerald-600 hover:bg-emerald-700 h-12 px-6"
+                  data-testid="manual-search-btn"
+                >
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
               </div>
             </div>
           </CardContent>
@@ -191,70 +233,71 @@ const Scanner = ({ user }) => {
         {/* Instruções */}
         <Card className="bg-blue-50 border-blue-200">
           <CardContent className="pt-6">
-            <h3 className="font-bold text-blue-900 mb-2">📱 Como Usar no Telemóvel:</h3>
-            <ol className="text-sm text-blue-800 space-y-1 list-decimal list-inside">
-              <li>Clique em "Abrir Câmera para Escanear"</li>
-              <li>Tire uma foto do código de barras</li>
-              <li>OU digite o código manualmente (mais rápido!)</li>
-              <li>O sistema irá buscar o produto automaticamente</li>
+            <h3 className="font-bold text-blue-900 mb-3">📱 Como Usar:</h3>
+            <ol className="text-sm text-blue-800 space-y-2 list-decimal list-inside">
+              <li>Clique em "Abrir Câmera"</li>
+              <li>Permita o acesso à câmera quando solicitado</li>
+              <li>Aponte para o código de barras</li>
+              <li>O scanner detecta automaticamente!</li>
+              <li>Ou digite o código manualmente se preferir</li>
             </ol>
           </CardContent>
         </Card>
 
         {/* Product Found Dialog */}
         <Dialog open={showProductDialog} onOpenChange={setShowProductDialog}>
-          <DialogContent data-testid="product-found-dialog">
+          <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle>Produto Encontrado</DialogTitle>
+              <DialogTitle>✅ Produto Encontrado</DialogTitle>
             </DialogHeader>
             {product && (
               <div className="space-y-4">
                 {product.image && (
-                  <img src={product.image} alt={product.name} className="w-full h-32 object-cover rounded" />
+                  <img src={product.image} alt={product.name} className="w-full h-40 object-cover rounded-lg" />
                 )}
                 <div>
-                  <h3 className="font-bold text-lg">{product.name}</h3>
-                  <p className="text-sm text-slate-600 mono">{product.barcode}</p>
+                  <h3 className="font-bold text-xl">{product.name}</h3>
+                  <p className="text-sm text-slate-600 mono mt-1">{product.barcode}</p>
                 </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-slate-600">Stock:</span>
-                    <span className="font-bold mono">{product.current_stock}</span>
+                <div className="bg-slate-50 rounded-lg p-4 space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-slate-600">Stock Atual:</span>
+                    <span className="font-bold text-lg">{product.current_stock}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-600">Preço:</span>
-                    <span className="mono">{product.sale_price} {product.currency}</span>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-slate-600">Preço de Venda:</span>
+                    <span className="font-bold">{product.sale_price} {product.currency}</span>
                   </div>
                 </div>
 
-                <div className="border-t border-slate-200 pt-4">
-                  <Label htmlFor="quantity">Quantidade</Label>
+                <div>
+                  <Label htmlFor="quantity" className="text-base">Quantidade</Label>
                   <Input
                     id="quantity"
                     type="number"
                     min="1"
                     value={quantity}
                     onChange={(e) => setQuantity(e.target.value)}
-                    className="mt-2 h-12 text-lg"
+                    className="mt-2 h-12 text-lg text-center font-bold"
                     data-testid="movement-quantity-input"
                   />
                 </div>
 
-                <div className="flex gap-2">
+                <div className="grid grid-cols-2 gap-3 pt-2">
                   <Button
                     onClick={() => handleAddMovement('entrada')}
-                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 h-12"
+                    className="h-14 bg-emerald-600 hover:bg-emerald-700"
                     data-testid="add-entry-btn"
                   >
-                    <Plus className="w-4 h-4 mr-2" />
+                    <Plus className="w-5 h-5 mr-2" />
                     Entrada
                   </Button>
                   <Button
                     onClick={() => handleAddMovement('saida')}
-                    className="flex-1 bg-red-600 hover:bg-red-700 h-12"
+                    className="h-14 bg-red-600 hover:bg-red-700"
                     data-testid="add-exit-btn"
                   >
-                    <Plus className="w-4 h-4 mr-2" />
+                    <Plus className="w-5 h-5 mr-2" />
                     Saída
                   </Button>
                 </div>
@@ -265,36 +308,29 @@ const Scanner = ({ user }) => {
 
         {/* Create Product Dialog */}
         <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
-          <DialogContent data-testid="create-product-dialog" className="max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Criar Novo Produto</DialogTitle>
+              <DialogTitle>❌ Produto Não Encontrado - Criar Novo</DialogTitle>
             </DialogHeader>
             <form onSubmit={handleCreateProduct} className="space-y-3">
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm text-amber-800">
+                <strong>Código:</strong> {formData.barcode}
+              </div>
               <div>
-                <Label htmlFor="new-name">Nome do Produto</Label>
+                <Label htmlFor="new-name">Nome do Produto *</Label>
                 <Input
                   id="new-name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
                   className="h-12"
+                  placeholder="Ex: Camisa Azul"
                   data-testid="new-product-name-input"
-                />
-              </div>
-              <div>
-                <Label htmlFor="new-barcode">Código de Barras</Label>
-                <Input
-                  id="new-barcode"
-                  value={formData.barcode}
-                  onChange={(e) => setFormData({ ...formData, barcode: e.target.value })}
-                  required
-                  className="h-12"
-                  data-testid="new-product-barcode-input"
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label htmlFor="new-purchase">Preço Compra</Label>
+                  <Label htmlFor="new-purchase">Preço Compra *</Label>
                   <Input
                     id="new-purchase"
                     type="number"
@@ -303,11 +339,12 @@ const Scanner = ({ user }) => {
                     onChange={(e) => setFormData({ ...formData, purchase_price: e.target.value })}
                     required
                     className="h-12"
+                    placeholder="0.00"
                     data-testid="new-product-purchase-input"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="new-sale">Preço Venda</Label>
+                  <Label htmlFor="new-sale">Preço Venda *</Label>
                   <Input
                     id="new-sale"
                     type="number"
@@ -316,15 +353,25 @@ const Scanner = ({ user }) => {
                     onChange={(e) => setFormData({ ...formData, sale_price: e.target.value })}
                     required
                     className="h-12"
+                    placeholder="0.00"
                     data-testid="new-product-sale-input"
                   />
                 </div>
               </div>
-              <div className="flex gap-2 pt-4">
-                <Button type="button" variant="outline" onClick={() => setShowCreateDialog(false)} className="flex-1 h-12">
+              <div className="grid grid-cols-2 gap-3 pt-3">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setShowCreateDialog(false)} 
+                  className="h-12"
+                >
                   Cancelar
                 </Button>
-                <Button type="submit" className="flex-1 bg-emerald-600 hover:bg-emerald-700 h-12" data-testid="create-product-btn">
+                <Button 
+                  type="submit" 
+                  className="h-12 bg-emerald-600 hover:bg-emerald-700" 
+                  data-testid="create-product-btn"
+                >
                   Criar Produto
                 </Button>
               </div>
