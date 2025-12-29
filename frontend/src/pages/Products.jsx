@@ -218,36 +218,39 @@ const Products = ({ user }) => {
                 {t('add_product')}
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-md" data-testid="product-dialog" aria-describedby="product-dialog-description">
-              <DialogHeader>
-                <DialogTitle>{editingProduct ? t('edit_product') : t('add_product')}</DialogTitle>
+            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto" data-testid="product-dialog" aria-describedby="product-dialog-description">
+              <DialogHeader className="sticky top-0 bg-white z-10 pb-4 border-b">
+                <DialogTitle className="text-xl">{editingProduct ? t('edit_product') : t('add_product')}</DialogTitle>
                 <p id="product-dialog-description" className="sr-only">
                   {editingProduct ? 'Edit product details' : 'Add a new product to inventory'}
                 </p>
               </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-3 py-4">
                 <div>
-                  <Label htmlFor="name">{t('product_name')}</Label>
+                  <Label htmlFor="name" className="text-sm">{t('product_name')}</Label>
                   <Input
                     id="name"
                     data-testid="product-name-input"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     required
+                    className="h-10"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="barcode">{t('barcode')}</Label>
+                  <Label htmlFor="barcode" className="text-sm">{t('barcode')}</Label>
                   <Input
                     id="barcode"
                     data-testid="product-barcode-input"
                     value={formData.barcode}
                     onChange={(e) => setFormData({ ...formData, barcode: e.target.value })}
                     required
+                    className="h-10"
                   />
                 </div>
-                <div>
-                  <Label htmlFor="purchase_price">{t('purchase_price')}</Label>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label htmlFor="purchase_price" className="text-sm">{t('purchase_price')}</Label>
                   <Input
                     id="purchase_price"
                     type="number"
