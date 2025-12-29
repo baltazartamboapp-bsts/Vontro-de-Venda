@@ -194,23 +194,23 @@ const Layout = ({ children, user }) => {
       </main>
 
       {/* Mobile Bottom Navigation */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 mobile-nav-shadow">
-        <div className="grid grid-cols-5 gap-1 px-2 py-2">
-          {menuItems.slice(0, 5).map((item) => {
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 mobile-nav-shadow overflow-x-auto">
+        <div className="flex gap-1 px-2 py-2 min-w-max">
+          {menuItems.map((item) => {
             const Icon = item.icon;
             return (
               <button
                 key={item.path}
                 data-testid={`mobile-${item.testId}`}
                 onClick={() => navigate(item.path)}
-                className={`flex flex-col items-center justify-center py-2 px-1 rounded-lg transition-colors ${
+                className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors whitespace-nowrap ${
                   isActive(item.path)
                     ? 'bg-emerald-50 text-emerald-700'
                     : 'text-slate-600'
                 }`}
               >
                 <Icon className="w-5 h-5" />
-                <span className="text-xs mt-1 truncate w-full text-center">{item.label}</span>
+                <span className="text-xs mt-1">{item.label}</span>
               </button>
             );
           })}
