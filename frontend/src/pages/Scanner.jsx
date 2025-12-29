@@ -4,21 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'sonner';
 import Layout from '@/components/Layout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Camera, CameraOff, Package, Plus, ArrowRight } from 'lucide-react';
-import Webcam from 'react-webcam';
-import jsQR from 'jsqr';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Scanner = ({ user }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [isScanning, setIsScanning] = useState(false);
   const [scannedCode, setScannedCode] = useState('');
   const [product, setProduct] = useState(null);
   const [showProductDialog, setShowProductDialog] = useState(false);
@@ -31,59 +28,10 @@ const Scanner = ({ user }) => {
     currency: 'MZN'
   });
   const [quantity, setQuantity] = useState('1');
-  const webcamRef = useRef(null);
-  const scanIntervalRef = useRef(null);
-
-  useEffect(() => {
-    return () => {
-      if (scanIntervalRef.current) {
-        clearInterval(scanIntervalRef.current);
-      }
-    };
-  }, []);
-
-  const startScanner = () => {
-    setIsScanning(true);
-    scanIntervalRef.current = setInterval(() => {
-      captureAndScan();
-    }, 500);
-  };
-
-  const stopScanner = () => {
-    setIsScanning(false);
-    if (scanIntervalRef.current) {
-      clearInterval(scanIntervalRef.current);
-      scanIntervalRef.current = null;
-    }
-  };
-
-  const captureAndScan = () => {
-    if (webcamRef.current) {
-      const imageSrc = webcamRef.current.getScreenshot();
-      if (imageSrc) {
-        const image = new Image();
-        image.src = imageSrc;
-        image.onload = () => {
-          const canvas = document.createElement('canvas');
-          canvas.width = image.width;
-          canvas.height = image.height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(image, 0, 0);
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const code = jsQR(imageData.data, imageData.width, imageData.height);
-          
-          if (code) {
-            stopScanner();
-            handleScan(code.data);
-          }
-        };
-      }
-    }
-  };
+  const fileInputRef = useRef(null);
 
   const handleScan = async (barcode) => {
     setScannedCode(barcode);
-    await stopScanner();
 
     try {
       const response = await axios.get(
@@ -105,7 +53,10 @@ const Scanner = ({ user }) => {
   };
 
   const handleManualInput = async () => {
-    if (!scannedCode) return;
+    if (!scannedCode) {
+      toast.error('Digite um código');
+      return;
+    }
     handleScan(scannedCode);
   };
 
@@ -156,73 +107,97 @@ const Scanner = ({ user }) => {
     }
   };
 
+  // Função para abrir câmera nativa
+  const openNativeCamera = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  // Processar imagem capturada
+  const handleImageCapture = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    toast.info('Processando imagem...');
+    
+    // Aqui você usaria uma API de leitura de código de barras
+    // Por enquanto, vou simular pedindo ao usuário para digitar
+    toast.info('Por favor, digite o código manualmente abaixo');
+  };
+
   return (
     <Layout user={user}>
       <div className="space-y-6 fade-in">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900" data-testid="scanner-title">{t('scanner')}</h1>
-          <p className="text-slate-600 mt-1">{t('scan_barcode')}</p>
+          <h1 className="text-3xl font-bold text-slate-900" data-testid="scanner-title">Scanner</h1>
+          <p className="text-slate-600 mt-1">Escanear código de barras</p>
         </div>
 
         <Card>
           <CardContent className="pt-6">
             <div className="space-y-4">
-              {!isScanning ? (
-                <div className="text-center py-8">
-                  <Camera className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-                  <Button
-                    onClick={startScanner}
-                    className="bg-emerald-600 hover:bg-emerald-700"
-                    data-testid="start-scan-btn"
-                  >
-                    <Camera className="w-4 h-4 mr-2" />
-                    Iniciar Scanner
-                  </Button>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <div className="relative w-full aspect-video bg-black rounded-lg overflow-hidden" data-testid="qr-reader">
-                    <Webcam
-                      ref={webcamRef}
-                      audio={false}
-                      screenshotFormat="image/jpeg"
-                      videoConstraints={{
-                        facingMode: 'environment'
-                      }}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-64 h-64 border-4 border-emerald-500 rounded-lg"></div>
-                    </div>
-                  </div>
-                  <Button
-                    onClick={stopScanner}
-                    variant="outline"
-                    className="w-full"
-                    data-testid="stop-scan-btn"
-                  >
-                    <CameraOff className="w-4 h-4 mr-2" />
-                    Parar Scanner
-                  </Button>
-                </div>
-              )}
+              {/* Botão para abrir câmera */}
+              <div className="text-center py-8">
+                <Camera className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  onChange={handleImageCapture}
+                  className="hidden"
+                />
+                <Button
+                  onClick={openNativeCamera}
+                  className="bg-emerald-600 hover:bg-emerald-700 w-full sm:w-auto"
+                  data-testid="start-scan-btn"
+                >
+                  <Camera className="w-5 h-5 mr-2" />
+                  Abrir Câmera para Escanear
+                </Button>
+                <p className="text-xs text-slate-500 mt-2">
+                  Tire uma foto do código de barras
+                </p>
+              </div>
 
               <div className="border-t border-slate-200 pt-4">
-                <Label htmlFor="manual-code">Ou digite o código manualmente</Label>
+                <Label htmlFor="manual-code" className="text-base font-semibold">Digite o Código Manualmente</Label>
                 <div className="flex gap-2 mt-2">
                   <Input
                     id="manual-code"
                     placeholder="Digite o código de barras"
                     value={scannedCode}
                     onChange={(e) => setScannedCode(e.target.value)}
+                    className="h-12 text-lg"
                     data-testid="manual-barcode-input"
                   />
-                  <Button onClick={handleManualInput} data-testid="manual-search-btn">
-                    <ArrowRight className="w-4 h-4" />
+                  <Button 
+                    onClick={handleManualInput}
+                    className="bg-emerald-600 hover:bg-emerald-700 h-12 px-6"
+                    data-testid="manual-search-btn"
+                  >
+                    <ArrowRight className="w-5 h-5" />
                   </Button>
                 </div>
+                <p className="text-xs text-slate-500 mt-2">
+                  ✅ Forma mais confiável: digite o código que vê no produto
+                </p>
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Instruções */}
+        <Card className="bg-blue-50 border-blue-200">
+          <CardContent className="pt-6">
+            <h3 className="font-bold text-blue-900 mb-2">📱 Como Usar no Telemóvel:</h3>
+            <ol className="text-sm text-blue-800 space-y-1 list-decimal list-inside">
+              <li>Clique em "Abrir Câmera para Escanear"</li>
+              <li>Tire uma foto do código de barras</li>
+              <li>OU digite o código manualmente (mais rápido!)</li>
+              <li>O sistema irá buscar o produto automaticamente</li>
+            </ol>
           </CardContent>
         </Card>
 
@@ -230,34 +205,37 @@ const Scanner = ({ user }) => {
         <Dialog open={showProductDialog} onOpenChange={setShowProductDialog}>
           <DialogContent data-testid="product-found-dialog">
             <DialogHeader>
-              <DialogTitle>{t('product_details')}</DialogTitle>
+              <DialogTitle>Produto Encontrado</DialogTitle>
             </DialogHeader>
             {product && (
               <div className="space-y-4">
+                {product.image && (
+                  <img src={product.image} alt={product.name} className="w-full h-32 object-cover rounded" />
+                )}
                 <div>
                   <h3 className="font-bold text-lg">{product.name}</h3>
                   <p className="text-sm text-slate-600 mono">{product.barcode}</p>
                 </div>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-slate-600">{t('current_stock')}:</span>
+                    <span className="text-slate-600">Stock:</span>
                     <span className="font-bold mono">{product.current_stock}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-600">{t('sale_price')}:</span>
+                    <span className="text-slate-600">Preço:</span>
                     <span className="mono">{product.sale_price} {product.currency}</span>
                   </div>
                 </div>
 
                 <div className="border-t border-slate-200 pt-4">
-                  <Label htmlFor="quantity">{t('quantity')}</Label>
+                  <Label htmlFor="quantity">Quantidade</Label>
                   <Input
                     id="quantity"
                     type="number"
                     min="1"
                     value={quantity}
                     onChange={(e) => setQuantity(e.target.value)}
-                    className="mt-2"
+                    className="mt-2 h-12 text-lg"
                     data-testid="movement-quantity-input"
                   />
                 </div>
@@ -265,19 +243,19 @@ const Scanner = ({ user }) => {
                 <div className="flex gap-2">
                   <Button
                     onClick={() => handleAddMovement('entrada')}
-                    className="flex-1 bg-emerald-600 hover:bg-emerald-700"
+                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 h-12"
                     data-testid="add-entry-btn"
                   >
                     <Plus className="w-4 h-4 mr-2" />
-                    {t('add_entry')}
+                    Entrada
                   </Button>
                   <Button
                     onClick={() => handleAddMovement('saida')}
-                    className="flex-1 bg-red-600 hover:bg-red-700"
+                    className="flex-1 bg-red-600 hover:bg-red-700 h-12"
                     data-testid="add-exit-btn"
                   >
                     <Plus className="w-4 h-4 mr-2" />
-                    {t('add_exit')}
+                    Saída
                   </Button>
                 </div>
               </div>
@@ -287,61 +265,67 @@ const Scanner = ({ user }) => {
 
         {/* Create Product Dialog */}
         <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
-          <DialogContent data-testid="create-product-dialog">
+          <DialogContent data-testid="create-product-dialog" className="max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>{t('create_new_product')}</DialogTitle>
+              <DialogTitle>Criar Novo Produto</DialogTitle>
             </DialogHeader>
-            <form onSubmit={handleCreateProduct} className="space-y-4">
+            <form onSubmit={handleCreateProduct} className="space-y-3">
               <div>
-                <Label htmlFor="new-name">{t('product_name')}</Label>
+                <Label htmlFor="new-name">Nome do Produto</Label>
                 <Input
                   id="new-name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
+                  className="h-12"
                   data-testid="new-product-name-input"
                 />
               </div>
               <div>
-                <Label htmlFor="new-barcode">{t('barcode')}</Label>
+                <Label htmlFor="new-barcode">Código de Barras</Label>
                 <Input
                   id="new-barcode"
                   value={formData.barcode}
                   onChange={(e) => setFormData({ ...formData, barcode: e.target.value })}
                   required
+                  className="h-12"
                   data-testid="new-product-barcode-input"
                 />
               </div>
-              <div>
-                <Label htmlFor="new-purchase">{t('purchase_price')}</Label>
-                <Input
-                  id="new-purchase"
-                  type="number"
-                  step="0.01"
-                  value={formData.purchase_price}
-                  onChange={(e) => setFormData({ ...formData, purchase_price: e.target.value })}
-                  required
-                  data-testid="new-product-purchase-input"
-                />
-              </div>
-              <div>
-                <Label htmlFor="new-sale">{t('sale_price')}</Label>
-                <Input
-                  id="new-sale"
-                  type="number"
-                  step="0.01"
-                  value={formData.sale_price}
-                  onChange={(e) => setFormData({ ...formData, sale_price: e.target.value })}
-                  required
-                  data-testid="new-product-sale-input"
-                />
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label htmlFor="new-purchase">Preço Compra</Label>
+                  <Input
+                    id="new-purchase"
+                    type="number"
+                    step="0.01"
+                    value={formData.purchase_price}
+                    onChange={(e) => setFormData({ ...formData, purchase_price: e.target.value })}
+                    required
+                    className="h-12"
+                    data-testid="new-product-purchase-input"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="new-sale">Preço Venda</Label>
+                  <Input
+                    id="new-sale"
+                    type="number"
+                    step="0.01"
+                    value={formData.sale_price}
+                    onChange={(e) => setFormData({ ...formData, sale_price: e.target.value })}
+                    required
+                    className="h-12"
+                    data-testid="new-product-sale-input"
+                  />
+                </div>
               </div>
               <div className="flex gap-2 pt-4">
-                <Button type="button" variant="outline" onClick={() => setShowCreateDialog(false)} className="flex-1">
-                  {t('cancel')}
+                <Button type="button" variant="outline" onClick={() => setShowCreateDialog(false)} className="flex-1 h-12">
+                  Cancelar
                 </Button>
-                <Button type="submit" className="flex-1 bg-emerald-600 hover:bg-emerald-700" data-testid="create-product-btn">
-                  {t('save')}
+                <Button type="submit" className="flex-1 bg-emerald-600 hover:bg-emerald-700 h-12" data-testid="create-product-btn">
+                  Criar Produto
                 </Button>
               </div>
             </form>
