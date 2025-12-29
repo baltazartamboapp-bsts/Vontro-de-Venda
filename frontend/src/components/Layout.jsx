@@ -193,28 +193,32 @@ const Layout = ({ children, user }) => {
         </div>
       </main>
 
-      {/* Mobile Bottom Navigation */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 mobile-nav-shadow overflow-x-auto">
-        <div className="flex gap-1 px-2 py-2 min-w-max">
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            return (
-              <button
-                key={item.path}
-                data-testid={`mobile-${item.testId}`}
-                onClick={() => navigate(item.path)}
-                className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors whitespace-nowrap ${
-                  isActive(item.path)
-                    ? 'bg-emerald-50 text-emerald-700'
-                    : 'text-slate-600'
-                }`}
-              >
-                <Icon className="w-5 h-5" />
-                <span className="text-xs mt-1">{item.label}</span>
-              </button>
-            );
-          })}
+      {/* Mobile Bottom Navigation - Scroll Horizontal */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 mobile-nav-shadow">
+        <div className="overflow-x-auto overflow-y-hidden scrollbar-hide">
+          <div className="flex gap-2 px-3 py-2 min-w-max">
+            {menuItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <button
+                  key={item.path}
+                  data-testid={`mobile-${item.testId}`}
+                  onClick={() => navigate(item.path)}
+                  className={`flex flex-col items-center justify-center py-2 px-4 rounded-lg transition-all whitespace-nowrap min-w-[70px] ${
+                    isActive(item.path)
+                      ? 'bg-emerald-600 text-white shadow-lg'
+                      : 'bg-slate-50 text-slate-600'
+                  }`}
+                >
+                  <Icon className="w-6 h-6 mb-1" />
+                  <span className="text-xs font-medium">{item.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
+        {/* Indicador de scroll */}
+        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
       </nav>
     </div>
   );
